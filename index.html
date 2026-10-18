@@ -14,6 +14,21 @@ header{background:rgba(16,23,47,.97);color:white;position:sticky;top:0;z-index:2
 .cta{padding:0 0 70px}.cta-box{border-radius:24px;background:linear-gradient(120deg,#1b2548,#49368f);color:white;padding:38px;display:flex;align-items:center;justify-content:space-between;gap:25px}.cta-box h2{margin:0 0 8px}.cta-box p{margin:0;color:#d8def2}.cta-box .btn{flex-shrink:0}
 footer{background:var(--navy);color:#cbd2e7;padding:32px 0}.footer-inner{display:flex;justify-content:space-between;gap:18px;align-items:center}.footer-inner small{color:#929dbd}
 .page{min-height:65vh;padding:42px 0 70px}.page-title{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:25px}.page-title h1{margin:0;font-size:clamp(28px,4vw,38px)}.page-title p{margin:6px 0 0;color:var(--muted)}.panel{background:white;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow)}.panel h2,.panel h3{margin-top:0}.grid-two{display:grid;grid-template-columns:1fr 1fr;gap:20px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}.field label{font-size:13px;font-weight:750}.field input,.field select,.field textarea{border:1px solid #dfe3ef;border-radius:11px;padding:12px 13px;background:white;outline:none;width:100%}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px #7958e81a}.notice{border-radius:12px;padding:12px 14px;font-size:13px;margin:12px 0}.notice.info{background:#f0edff;color:#4f3c9a}.notice.warn{background:#fff4d8;color:#755516}.notice.error{background:#fff0f0;color:#9d2e2e}.notice.success{background:#e7f8f0;color:#126747}.auth-wrap{max-width:560px;margin:auto}.auth-tabs{display:flex;background:#f1f2f8;border-radius:12px;padding:4px;margin-bottom:20px}.auth-tabs button{flex:1;border:0;background:transparent;padding:10px;border-radius:9px;font-weight:750}.auth-tabs button.active{background:white;box-shadow:0 2px 8px #17203d12}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}.stat{background:white;border:1px solid var(--line);border-radius:15px;padding:17px}.stat small{color:var(--muted);display:block}.stat strong{display:block;font-size:27px;margin-top:4px}.test-toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:18px}.test-toolbar .field{min-width:150px;flex:1}.passage{background:#f7f7fc;border:1px solid var(--line);padding:20px;border-radius:14px;line-height:1.9;font-size:17px;min-height:130px;white-space:pre-wrap}.typing-area{width:100%;min-height:150px;resize:vertical;border:1px solid #dfe3ef;border-radius:14px;padding:16px;font-size:17px;line-height:1.8;margin-top:13px}.timer{font-size:26px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--purple)}.test-status{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.result-box{background:#f6f5ff;border-radius:13px;padding:17px;text-align:center}.result-box strong{font-size:27px;display:block}.result-box span{font-size:12px;color:var(--muted)}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:12px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px}.empty{padding:30px;text-align:center;color:var(--muted)}.loading{opacity:.6;pointer-events:none}
+
+/* Accessibility preferences */
+body.dark-mode{--paper:#101522;--ink:#edf0fa;--muted:#b0bad2;--white:#1b2335;--line:#303a50;--shadow:0 14px 40px rgba(0,0,0,.22);background:var(--paper);color:var(--ink)}
+body.dark-mode .panel,body.dark-mode .service-card,body.dark-mode .stat,body.dark-mode .step,body.dark-mode .btn-outline{background:#1b2335;color:#edf0fa;border-color:#303a50}
+body.dark-mode .how{background:#141b2a}body.dark-mode .passage,body.dark-mode .typing-area,body.dark-mode .field input,body.dark-mode .field select,body.dark-mode .field textarea{background:#121a2a;color:#edf0fa;border-color:#3b465f}
+body.dark-mode .result-box{background:#292546}body.dark-mode .auth-tabs{background:#121a2a}body.dark-mode .auth-tabs button.active{background:#29334a;color:#fff}
+body.dark-mode .service-card ul{color:#c3cbe0}body.dark-mode .step-num{background:#343d59}
+.header-tools{display:flex;align-items:center;gap:8px}.header-tools .btn{white-space:nowrap}
+.passage-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:14px 0 20px}
+.passage-choice{border:1px solid var(--line);border-radius:12px;padding:13px 8px;background:var(--white);color:var(--ink);font-weight:750}
+.passage-choice.selected{background:var(--purple);border-color:var(--purple);color:white}
+.passage-choice small{display:block;font-weight:500;font-size:11px;opacity:.8}
+@media(max-width:850px){.header-tools{margin-left:auto}.nav{flex-wrap:wrap}.passage-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:540px){.header-tools{width:100%;justify-content:flex-end;padding-bottom:10px}.header-tools .btn{padding:8px 10px;font-size:12px}.passage-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
 @media(max-width:850px){.hero-inner{grid-template-columns:1fr;padding:52px 0}.hero-art{min-height:280px}.cards{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.navlinks{display:none;position:absolute;top:76px;left:0;right:0;background:var(--navy);padding:20px 4%;flex-direction:column;align-items:flex-start}.navlinks.open{display:flex}.menu-toggle{display:block}.grid-two{grid-template-columns:1fr}.cta-box{flex-direction:column;align-items:flex-start}.footer-inner{flex-direction:column;align-items:flex-start}}
 @media(max-width:540px){.section{padding:52px 0}.hero h1{font-size:39px}.hero p{font-size:15px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.result-grid{grid-template-columns:1fr}.panel{padding:18px}.page-title{align-items:flex-start;flex-direction:column}.float-card{font-size:11px;padding:9px 11px}.orbit{width:260px}.star-core{width:115px;height:115px;font-size:52px}}
 </style>
@@ -25,6 +40,10 @@ footer{background:var(--navy);color:#cbd2e7;padding:32px 0}.footer-inner{display
       <span class="brand-icon">✦</span>
       <span class="brand-name">STARLIGHT<small>ONLINE ACADEMY</small></span>
     </a>
+    <div class="header-tools">
+      <button class="btn btn-outline btn-small" id="languageToggle" type="button" onclick="toggleLanguage()">தமிழ்</button>
+      <button class="btn btn-outline btn-small" id="themeToggle" type="button" onclick="toggleTheme()" aria-label="Switch colour theme">🌙 Dark</button>
+    </div>
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
     <nav class="navlinks" id="navlinks">
       <a href="#programmes" onclick="showPage('home')">Our Sections</a>
@@ -152,6 +171,7 @@ footer{background:var(--navy);color:#cbd2e7;padding:32px 0}.footer-inner{display
       <article class="service-card"><div class="service-icon">✍️</div><h3>Shorthand</h3><p>Explore shorthand learning and practice resources.</p><button class="btn btn-primary" onclick="openSection('shorthand')">Open Shorthand</button></article>
       <article class="service-card"><div class="service-icon">📝</div><h3>Mock Test Practice</h3><p>Choose typing or shorthand mock-test practice.</p><button class="btn btn-primary" onclick="openSection('mock')">Open Mock Tests</button></article>
     </div>
+    <div class="panel" style="margin-top:22px"><h2>🏆 Top 10 Typing Leaderboard</h2><p style="color:var(--muted)">Students are ranked by their best saved WPM, with accuracy used to break ties.</p><div id="leaderboardArea"><div class="empty">Loading leaderboard…</div></div></div>
     <div class="panel" style="margin-top:22px"><h2>My recent typing results</h2><div id="historyArea"><div class="empty">Sign in to load your saved results.</div></div></div>
   </div>
 </section>
@@ -190,36 +210,161 @@ let testStartedAt = null;
 let testFinished = false;
 let currentSection = "typing";
 
-const passages = {
-  English: {
-    Junior: `Good typing skills are useful in school, college, offices, and many government examinations. The best way to improve is to practise regularly and carefully. Sit comfortably with your back straight and keep your fingers near the correct keys. Look at the screen as much as possible instead of looking down at the keyboard. At first, type slowly and make sure every word is correct. Speed will improve naturally as your fingers become familiar with the keys.
-
-Before beginning a typing test, read the instructions and check the time limit. Start typing only when you are ready. If you make a mistake, stay calm and continue carefully. Do not press keys too hard, and try to maintain a steady rhythm. After the test, review your result and identify the letters or words that caused difficulty. Practise those parts again instead of repeating only the easy exercises.
-
-A short practice session every day can be more useful than one very long session once a week. Take a small break when your hands feel tired. Keep track of your speed, accuracy, and common errors. Remember that accuracy is just as important as speed. With patience, regular practice, and a positive attitude, you can become a more confident typist and prepare well for future tests.`,
-    Senior: `Typing is an important practical skill for students and professionals who work with documents, records, reports, and digital services. In a timed typing examination, candidates must balance speed with accuracy while following the prescribed instructions. A fast result is not useful if the typed passage contains too many errors, so a reliable practice routine should develop both skills together.
-
-Begin each session by checking your sitting position and relaxing your shoulders. Keep your wrists comfortable and place your fingers correctly on the keyboard. Read the passage carefully before you begin, and then type at a steady pace. Avoid rushing through unfamiliar words or punctuation. If a mistake occurs, correct it when appropriate and return to the passage without losing concentration. Consistency is more valuable than sudden bursts of speed.
-
-After completing a test, study the result rather than looking only at the words per minute. Notice repeated spelling errors, missed spaces, punctuation mistakes, and keys that slow you down. Make a note of these problems and practise them in a separate exercise. Use passages that include a variety of sentence lengths and common workplace vocabulary. As your accuracy becomes stable, gradually increase your pace.
-
-Good preparation also requires discipline. Practise under a realistic time limit, avoid unnecessary distractions, and take short breaks between sessions. Record your results so that you can compare your performance over several days. Progress may be gradual, but careful practice helps build confidence, concentration, and dependable typing skills for formal assessments and everyday work.`,
+const passageSets = {
+  "English": {
+    "Junior": [
+      "Good habits help us learn and grow. We should wake up on time, keep our books ready, and finish our work carefully. Small efforts every day can bring good results.",
+      "Reading gives us new ideas and helps us understand the world. A few pages each day can improve our vocabulary, concentration, and imagination.",
+      "Clean surroundings make our homes, schools, and streets pleasant. We can use dustbins, save water, and remind others to keep public places clean.",
+      "Regular practice helps us improve any skill. We may make mistakes at first, but patience and effort help us become more confident.",
+      "Trees give us shade, fresh air, fruits, and homes for birds. Planting and protecting trees is a simple way to care for our planet.",
+      "Time is valuable, so we should plan our day wisely. Completing important tasks first leaves more time for rest and recreation.",
+      "Teamwork teaches us to listen, share ideas, and help one another. A group can often solve a problem better when everyone contributes.",
+      "Healthy food gives our bodies energy. Fruits, vegetables, grains, and enough water help us stay active and ready to learn.",
+      "A library is a quiet place where people can read and discover information. We should handle books carefully and return them on time.",
+      "Kind words can make another person feel welcome. Respect, honesty, and patience help us build strong friendships.",
+      "Exercise keeps our bodies strong and supports our health. Walking, cycling, stretching, and playing outdoors are useful daily activities.",
+      "Technology helps people learn, communicate, and complete work. We should use digital devices wisely and take breaks from screens.",
+      "Saving money teaches us to make careful choices. Even a small amount saved regularly can help us prepare for future needs.",
+      "Every student learns at a different pace. Asking questions, reviewing lessons, and practising often can make difficult topics easier.",
+      "Road safety is important for everyone. We should use crossings, follow traffic signals, and pay attention when walking near vehicles.",
+      "Water is necessary for people, plants, and animals. Turning off taps and repairing leaks can reduce waste and protect this resource.",
+      "Helping at home builds responsibility. We can arrange our books, keep our room tidy, and complete simple tasks without being asked.",
+      "Music, art, and stories allow us to express ideas. Creative activities can also help us relax and see ordinary things in new ways.",
+      "Before a test, prepare your materials and read the instructions. Stay calm, manage your time, and check your answers when possible.",
+      "Birds and animals are part of nature. We should treat them kindly, protect their habitats, and never disturb them for fun.",
+      "Good communication means listening as well as speaking. When we explain an idea clearly and politely, others can understand us better.",
+      "A daily timetable can make study easier. Set realistic goals, include short breaks, and adjust the plan when something unexpected happens.",
+      "Learning a new skill takes time. Celebrate small improvements and use feedback to decide what to practise next.",
+      "Community helpers make daily life safer and easier. Teachers, nurses, drivers, farmers, and many others contribute to our communities."
+    ],
+    "Senior": [
+      "Effective preparation begins with a clear plan. Candidates should identify their strengths, review weak areas, and divide their available time among focused practice sessions.",
+      "Digital services have changed the way people communicate and complete official work. Users should protect personal information, verify sources, and use online services responsibly.",
+      "Public libraries provide access to books, reference materials, and learning opportunities. They support independent study and help communities develop a culture of reading.",
+      "Time management is essential during competitive examinations. Candidates should understand the structure of each test, practise within a limit, and avoid spending too long on one question.",
+      "Accuracy and speed must develop together in typing practice. A steady rhythm, correct finger placement, and regular review are more reliable than hurried attempts.",
+      "Environmental protection requires practical action from individuals and institutions. Reducing waste, conserving energy, and protecting local habitats can produce meaningful benefits.",
+      "Clear written communication is valuable in offices and public services. Correct spelling, appropriate punctuation, and logical paragraph structure help prevent misunderstandings.",
+      "Financial literacy helps people plan expenses and prepare for unexpected needs. A simple budget can reveal spending patterns and support more informed decisions.",
+      "Public transport can reduce traffic congestion when services are reliable and accessible. Safe stations, clear information, and thoughtful planning improve the experience for passengers.",
+      "Teamwork succeeds when responsibilities are understood and information is shared. Respectful discussion allows different viewpoints to contribute to a stronger decision.",
+      "Regular revision helps move information from short-term familiarity to lasting understanding. Short, spaced sessions are often easier to maintain than one exhausting study period.",
+      "Technology can improve access to education, but access alone does not guarantee learning. Students also need guidance, reliable materials, and opportunities to practise.",
+      "Professional conduct includes punctuality, honesty, respectful language, and care with confidential information. These habits build trust in workplaces and public institutions.",
+      "Good data is useful only when it is recorded consistently and interpreted carefully. Checking entries and explaining methods can reduce errors in reports and decisions.",
+      "Health and productivity are connected. Adequate sleep, movement, hydration, and breaks can support attention during long periods of study or computer work.",
+      "Local history helps communities understand how places and institutions have developed. Preserving records and listening to older residents can protect valuable knowledge.",
+      "Disaster preparedness begins before an emergency occurs. Families and workplaces should know important contacts, safe routes, and the location of essential supplies.",
+      "An effective meeting has a clear purpose, an agreed agenda, and enough time for questions. Recording decisions and responsibilities helps the group follow through.",
+      "Responsible citizenship involves understanding public information, respecting others, and participating constructively in community life. Small contributions can improve shared spaces.",
+      "Critical thinking requires checking evidence instead of accepting every claim immediately. Comparing sources and separating facts from opinions leads to better judgement.",
+      "Customer service depends on patience and clear explanations. Listening carefully to a concern is often the first step toward finding a practical solution.",
+      "Written records help organisations maintain continuity and accountability. Documents should be accurate, securely stored, and available to authorised people when needed.",
+      "Career development is a continuous process. Reviewing progress, learning new tools, and seeking useful feedback can help workers adapt to changing responsibilities.",
+      "Successful examination practice should resemble the real test environment. Candidates benefit from timed exercises, careful review, and a consistent routine."
+    ]
   },
-  Tamil: {
-    Junior: `தட்டச்சுத் திறன் பள்ளி, கல்லூரி, அலுவலகம் மற்றும் பல்வேறு தேர்வுகளுக்குப் பயனுள்ளதாக இருக்கும். இந்தத் திறனை மேம்படுத்த தினமும் சிறிது நேரம் கவனமாகப் பயிற்சி செய்வது நல்லது. கணினியின் முன் வசதியாக அமர்ந்து, முதுகை நேராக வைத்துக்கொள்ளுங்கள். முடிந்தவரை விசைப்பலகையைப் பார்க்காமல் திரையைப் பார்த்துத் தட்டச்சு செய்யப் பழகுங்கள். ஆரம்பத்தில் வேகத்தைப் பற்றி கவலைப்படாமல் ஒவ்வொரு சொல்லையும் சரியாகத் தட்டச்சு செய்ய முயற்சி செய்யுங்கள்.
-
-பயிற்சித் தேர்வைத் தொடங்குவதற்கு முன் அதன் வழிமுறைகளையும் நேர வரம்பையும் கவனமாகப் படியுங்கள். தயாரான பிறகு தட்டச்சைத் தொடங்குங்கள். தவறு ஏற்பட்டால் பதற்றப்படாமல் தொடர்ந்து கவனமாகச் செயல்படுங்கள். விசைகளை மிகவும் அழுத்த வேண்டாம். ஒரே சீரான வேகத்தில் தட்டச்சு செய்வதற்குப் பழகுங்கள். தேர்வு முடிந்ததும் உங்கள் முடிவைப் பார்த்து, எந்த எழுத்துகள் அல்லது சொற்களில் அதிகத் தவறுகள் ஏற்பட்டன என்பதை அறிந்துகொள்ளுங்கள்.
-
-வாரத்தில் ஒரே நாளில் நீண்ட நேரம் பயிற்சி செய்வதைவிட, தினமும் குறுகிய நேரம் பயிற்சி செய்வது பல நேரங்களில் பயனுள்ளதாக இருக்கும். கைகள் சோர்வடைந்தால் சிறிது ஓய்வு எடுத்துக்கொள்ளுங்கள். உங்கள் வேகம், துல்லியம் மற்றும் பொதுவான தவறுகளைப் பதிவு செய்யுங்கள். வேகத்தைப் போலவே துல்லியமும் முக்கியமானது என்பதை நினைவில் கொள்ளுங்கள். பொறுமையுடனும் தொடர்ச்சியான பயிற்சியுடனும் நீங்கள் நம்பிக்கையான தட்டச்சாளராக வளர முடியும்.`,
-    Senior: `தட்டச்சு என்பது ஆவணங்கள், அறிக்கைகள், பதிவுகள் மற்றும் மின்னணு சேவைகளுடன் பணிபுரியும் மாணவர்களுக்கும் பணியாளர்களுக்கும் தேவையான நடைமுறைத் திறனாகும். நேர வரம்புள்ள தட்டச்சுத் தேர்வில், கொடுக்கப்பட்ட வழிமுறைகளைப் பின்பற்றி வேகத்தையும் துல்லியத்தையும் சமநிலைப்படுத்த வேண்டும். அதிக வேகத்தில் தட்டச்சு செய்தாலும் பல தவறுகள் இருந்தால் நல்ல முடிவைப் பெற முடியாது. எனவே பயிற்சியின் நோக்கம் வேகத்தை மட்டும் அதிகரிப்பதாக இருக்கக் கூடாது.
-
-ஒவ்வொரு பயிற்சிக்கும் முன் அமரும் முறையைச் சரிபார்த்து தோள்களைத் தளர்வாக வைத்துக்கொள்ளுங்கள். விரல்களைச் சரியான விசைகளுக்கு அருகில் வைத்துப் பயிற்சி செய்யுங்கள். தட்டச்சைத் தொடங்குவதற்கு முன் உரையைப் படித்துப் புரிந்துகொள்ளுங்கள். அறிமுகமில்லாத சொற்கள் அல்லது நிறுத்தக்குறிகள் வந்தால் அவசரப்படாமல் கவனமாகத் தட்டச்சு செய்யுங்கள். தவறு ஏற்பட்டால் அதைச் சரிசெய்து மீண்டும் உரையில் கவனம் செலுத்துங்கள். திடீரென வேகமாகச் செயல்படுவதைவிட ஒரே சீரான பயிற்சி சிறந்தது.
-
-தேர்வு முடிந்ததும் நிமிடத்திற்கு எத்தனை சொற்கள் தட்டச்சு செய்தீர்கள் என்பதை மட்டும் பார்க்காமல், முடிவை முழுமையாக ஆய்வு செய்யுங்கள். மீண்டும் மீண்டும் ஏற்படும் எழுத்துப் பிழைகள், விடுபடும் இடைவெளிகள், நிறுத்தக்குறிப் பிழைகள் மற்றும் தாமதத்தை ஏற்படுத்தும் விசைகளை கவனியுங்கள். அவற்றைப் பதிவு செய்து தனியாகப் பயிற்சி செய்யுங்கள். பலவிதமான வாக்கியங்களும் பொதுவான அலுவலகச் சொற்களும் உள்ள உரைகளைத் தேர்ந்தெடுங்கள். துல்லியம் நிலையான பிறகு வேகத்தை மெதுவாக அதிகரிக்கலாம்.
-
-நல்ல தயாரிப்பிற்கு ஒழுங்கும் அவசியம். உண்மையான தேர்வைப் போன்ற நேர வரம்பில் பயிற்சி செய்யுங்கள்; கவனத்தைச் சிதறடிக்கும் விஷயங்களைத் தவிர்த்து, பயிற்சிகளுக்கு இடையில் சிறிய ஓய்வு எடுத்துக்கொள்ளுங்கள். பல நாட்களின் முடிவுகளைப் பதிவு செய்து ஒப்பிடுங்கள். முன்னேற்றம் மெதுவாக இருந்தாலும், தொடர்ச்சியான பயிற்சி நம்பிக்கை, கவனம் மற்றும் நம்பகமான தட்டச்சுத் திறனை வளர்க்கும்.`
+  "Tamil": {
+    "Junior": [
+      "நல்ல பழக்கங்கள் நம்மை கற்றுக்கொள்ளவும் வளரவும் உதவுகின்றன. நேரத்திற்கு எழுந்து, புத்தகங்களைத் தயாராக வைத்து, பணிகளை கவனமாக முடிக்க வேண்டும். தினமும் செய்யும் சிறிய முயற்சிகள் நல்ல பலனைத் தரும்.",
+      "புத்தகங்கள் படிப்பது புதிய கருத்துகளை அறிய உதவுகிறது. தினமும் சில பக்கங்கள் படிப்பதால் சொல்வளம், கவனம் மற்றும் கற்பனைத் திறன் மேம்படும்.",
+      "சுத்தமான சுற்றுப்புறம் வீடு, பள்ளி மற்றும் தெருக்களை அழகாக வைத்திருக்கிறது. குப்பைகளைத் தொட்டியில் போட்டு, தண்ணீரைச் சேமித்து, பொது இடங்களை சுத்தமாக வைத்திருக்க வேண்டும்.",
+      "தொடர்ச்சியான பயிற்சி எந்தத் திறனையும் மேம்படுத்த உதவும். ஆரம்பத்தில் தவறுகள் ஏற்பட்டாலும் பொறுமையும் முயற்சியும் நம்பிக்கையை வளர்க்கும்.",
+      "மரங்கள் நிழல், காற்று, பழங்கள் மற்றும் பறவைகளுக்கு வாழிடம் தருகின்றன. மரங்களை நட்டு பாதுகாப்பது பூமியை பராமரிக்கும் எளிய வழியாகும்.",
+      "நேரம் மதிப்புமிக்கது. நாளின் பணிகளை திட்டமிட்டு, முக்கியமானவற்றை முதலில் முடித்தால் ஓய்வுக்கும் விளையாட்டுக்கும் நேரம் கிடைக்கும்.",
+      "குழுவாகச் செயல்படுவது பிறர் கருத்தைக் கேட்கவும் உதவவும் கற்றுத் தருகிறது. அனைவரும் பங்களித்தால் சிக்கல்களுக்கு நல்ல தீர்வு கிடைக்கும்.",
+      "சத்தான உணவு உடலுக்கு ஆற்றல் தருகிறது. பழங்கள், காய்கறிகள், தானியங்கள் மற்றும் போதுமான தண்ணீர் ஆரோக்கியமாக இருக்க உதவுகின்றன.",
+      "நூலகம் அமைதியாகப் படிக்கவும் புதிய தகவல்களை அறியவும் உதவும் இடமாகும். புத்தகங்களை கவனமாக கையாள்ந்து சரியான நேரத்தில் திருப்பித் தர வேண்டும்.",
+      "அன்பான சொற்கள் மற்றவர்களுக்கு மகிழ்ச்சியைத் தரும். மரியாதை, நேர்மை மற்றும் பொறுமை நல்ல நட்பை உருவாக்குகின்றன.",
+      "உடற்பயிற்சி உடலை வலிமையாக்கி ஆரோக்கியத்தை மேம்படுத்துகிறது. நடைப்பயிற்சி, மிதிவண்டி ஓட்டுதல் மற்றும் வெளியில் விளையாடுதல் பயனுள்ள செயல்கள்.",
+      "தொழில்நுட்பம் கற்கவும் தொடர்புகொள்ளவும் உதவுகிறது. மின்னணு சாதனங்களை பொறுப்புடன் பயன்படுத்தி, இடையிடையே திரையிலிருந்து ஓய்வு எடுக்க வேண்டும்.",
+      "பணத்தைச் சேமிப்பது கவனமாக முடிவெடுக்க கற்றுத் தருகிறது. சிறிய தொகையைத் தொடர்ந்து சேமிப்பதும் எதிர்காலத் தேவைகளுக்கு உதவும்.",
+      "ஒவ்வொரு மாணவரும் வெவ்வேறு வேகத்தில் கற்றுக்கொள்கிறார். கேள்விகள் கேட்பதும் பாடங்களை மீண்டும் பார்ப்பதும் கடினமான விஷயங்களை எளிதாக்கும்.",
+      "சாலை பாதுகாப்பு அனைவருக்கும் முக்கியம். சாலையைக் கடக்கும் இடங்களைப் பயன்படுத்தி, போக்குவரத்து சிக்னல்களைப் பின்பற்ற வேண்டும்.",
+      "மனிதர்கள், தாவரங்கள் மற்றும் விலங்குகளுக்கு தண்ணீர் அவசியம். குழாயை மூடுவதும் கசிவுகளை சரிசெய்வதும் தண்ணீர் வீணாவதைத் தடுக்கும்.",
+      "வீட்டில் உதவுவது பொறுப்புணர்வை வளர்க்கிறது. புத்தகங்களை ஒழுங்குபடுத்தி, அறையை சுத்தமாக வைத்து, எளிய வேலைகளைச் செய்யலாம்.",
+      "இசை, ஓவியம் மற்றும் கதைகள் கருத்துகளை வெளிப்படுத்த உதவுகின்றன. படைப்பாற்றல் செயல்கள் மனதை அமைதிப்படுத்தி புதிய பார்வையைத் தருகின்றன.",
+      "தேர்வுக்கு முன் தேவையான பொருட்களைத் தயாராக வைத்து வழிமுறைகளைப் படியுங்கள். அமைதியாக இருந்து நேரத்தைப் பகிர்ந்து பயன்படுத்துங்கள்.",
+      "பறவைகளும் விலங்குகளும் இயற்கையின் ஒரு பகுதியாகும். அவற்றை அன்புடன் நடத்தி, அவற்றின் வாழிடங்களைப் பாதுகாக்க வேண்டும்.",
+      "நல்ல தொடர்பு என்பது பேசுவதுடன் கவனமாகக் கேட்பதையும் உள்ளடக்கியது. கருத்தை தெளிவாகவும் மரியாதையுடனும் கூறினால் பிறர் புரிந்துகொள்வார்கள்.",
+      "தினசரி அட்டவணை படிப்பை எளிதாக்கும். செய்யக்கூடிய இலக்குகளை அமைத்து, சிறிய ஓய்வுகளையும் சேர்த்துக்கொள்ளுங்கள்.",
+      "புதிய திறனைக் கற்றுக்கொள்ள நேரம் தேவை. சிறிய முன்னேற்றங்களையும் பாராட்டி, அடுத்ததாக எதைப் பயிற்சி செய்ய வேண்டும் எனத் தீர்மானியுங்கள்.",
+      "சமூக உதவியாளர்கள் நம் அன்றாட வாழ்க்கையை எளிதாக்குகின்றனர். ஆசிரியர்கள், செவிலியர்கள், ஓட்டுநர்கள் மற்றும் விவசாயிகள் சமூகத்திற்கு பங்களிக்கின்றனர்."
+    ],
+    "Senior": [
+      "திட்டமிட்ட தயாரிப்பு தெளிவான இலக்குடன் தொடங்குகிறது. தேர்வர்கள் தங்கள் வலிமைகளை அறிந்து, மேம்படுத்த வேண்டிய பகுதிகளைத் தேர்ந்து, நேரத்தை பயிற்சிக்குப் பகிர வேண்டும்.",
+      "மின்னணு சேவைகள் தகவல் பரிமாற்றத்தையும் அலுவலகப் பணிகளையும் மாற்றியுள்ளன. தனிப்பட்ட தகவல்களைப் பாதுகாத்து, தகவல்களின் நம்பகத்தன்மையைச் சரிபார்த்து, இணையத்தை பொறுப்புடன் பயன்படுத்த வேண்டும்.",
+      "பொது நூலகங்கள் புத்தகங்கள், குறிப்புகள் மற்றும் கற்றல் வாய்ப்புகளை வழங்குகின்றன. அவை தனிப்பட்ட படிப்பை ஊக்குவித்து வாசிப்பு பழக்கத்தை வளர்க்கின்றன.",
+      "போட்டித் தேர்வுகளில் நேர மேலாண்மை அவசியம். தேர்வின் அமைப்பை அறிந்து, நேர வரம்புடன் பயிற்சி செய்து, ஒரு கேள்விக்காக அதிக நேரம் செலவிடுவதைத் தவிர்க்க வேண்டும்.",
+      "தட்டச்சுப் பயிற்சியில் வேகமும் துல்லியமும் ஒன்றாக வளர வேண்டும். சீரான வேகம், சரியான விரல் அமைப்பு மற்றும் முடிவுகளை ஆய்வு செய்வது நம்பகமான முன்னேற்றத்தைத் தரும்.",
+      "சுற்றுச்சூழல் பாதுகாப்பிற்கு தனிநபர்களும் நிறுவனங்களும் செயல்பட வேண்டும். கழிவுகளைக் குறைத்தல், ஆற்றலைச் சேமித்தல் மற்றும் வாழிடங்களைப் பாதுகாத்தல் பயனளிக்கும்.",
+      "அலுவலகங்களிலும் பொது சேவைகளிலும் தெளிவான எழுத்துத் தொடர்பு முக்கியமானது. சரியான எழுத்துப்பிழையின்மை, நிறுத்தக்குறிகள் மற்றும் ஒழுங்கான பத்திகள் தவறான புரிதலைக் குறைக்கும்.",
+      "நிதி அறிவு செலவுகளைத் திட்டமிடவும் எதிர்பாராத தேவைகளுக்குத் தயாராகவும் உதவுகிறது. எளிய வரவு செலவு திட்டம் பணம் எங்கு செல்கிறது என்பதைப் புரிய வைக்கும்.",
+      "நம்பகமான பொதுப் போக்குவரத்து போக்குவரத்து நெரிசலைக் குறைக்க உதவும். பாதுகாப்பான நிலையங்கள், தெளிவான தகவல்கள் மற்றும் நல்ல திட்டமிடல் பயணத்தை மேம்படுத்துகின்றன.",
+      "பொறுப்புகள் தெளிவாகவும் தகவல்கள் பகிரப்பட்டும் இருந்தால் குழுப்பணி சிறப்பாகும். மரியாதையான விவாதம் பல கருத்துகளைச் சேர்த்து சிறந்த முடிவை உருவாக்கும்.",
+      "மீள்பார்வை தகவலை நீண்ட காலம் நினைவில் வைத்திருக்க உதவுகிறது. இடைவெளியுடன் குறுகிய நேரம் படிப்பது தொடர்ந்து செய்ய எளிதாக இருக்கும்.",
+      "தொழில்நுட்பம் கல்விக்கான அணுகலை மேம்படுத்தலாம்; ஆனால் அதுவே கற்றலை உறுதி செய்யாது. வழிகாட்டுதல், நம்பகமான பாடப்பொருள் மற்றும் பயிற்சி வாய்ப்புகளும் தேவை.",
+      "தொழில்முறை நடத்தை என்பது நேரம் காப்பது, நேர்மை, மரியாதையான மொழி மற்றும் ரகசியத் தகவல்களைப் பாதுகாப்பது ஆகியவற்றை உள்ளடக்கியது.",
+      "தரவு சரியாகப் பதிவு செய்யப்பட்டு கவனமாக விளக்கப்பட்டால் மட்டுமே பயனுள்ளதாக இருக்கும். பதிவுகளைச் சரிபார்த்து முறைகளை விளக்குவது தவறுகளைக் குறைக்கும்.",
+      "ஆரோக்கியமும் செயல்திறனும் ஒன்றோடொன்று தொடர்புடையவை. போதிய தூக்கம், உடல் இயக்கம், தண்ணீர் மற்றும் ஓய்வு கவனத்தை மேம்படுத்த உதவும்.",
+      "உள்ளூர் வரலாறு ஒரு பகுதியும் அதன் நிறுவனங்களும் எவ்வாறு வளர்ந்தன என்பதை விளக்குகிறது. பதிவுகளைப் பாதுகாப்பதும் மூத்தவர்களின் அனுபவங்களைக் கேட்பதும் முக்கியம்.",
+      "அவசரநிலைக்கு முன்பே தயாராக இருப்பது அவசியம். குடும்பங்களும் பணியிடங்களும் தொடர்பு எண்கள், பாதுகாப்பான வழிகள் மற்றும் அத்தியாவசியப் பொருட்கள் எங்கு உள்ளன என்பதை அறிந்திருக்க வேண்டும்.",
+      "பயனுள்ள கூட்டத்திற்கு தெளிவான நோக்கமும் திட்டமும் தேவை. முடிவுகளையும் பொறுப்புகளையும் பதிவு செய்வது அடுத்த நடவடிக்கைகளை உறுதி செய்கிறது.",
+      "பொறுப்பான குடிமகனாக இருப்பது பொதுத் தகவல்களைப் புரிந்துகொள்வதும் பிறரை மதிப்பதும் சமூகத்தில் நல்ல முறையில் பங்கேற்பதும் ஆகும்.",
+      "விமர்சன சிந்தனை என்பது ஒவ்வொரு கூற்றையும் உடனே ஏற்காமல் ஆதாரத்தைச் சரிபார்ப்பதாகும். பல ஆதாரங்களை ஒப்பிட்டு உண்மையையும் கருத்தையும் பிரித்தறியலாம்.",
+      "வாடிக்கையாளர் சேவையில் பொறுமையும் தெளிவான விளக்கமும் முக்கியம். பிரச்சினையை கவனமாகக் கேட்பது நடைமுறைத் தீர்வுக்கான முதல் படியாகும்.",
+      "எழுத்துப் பதிவுகள் நிறுவனங்களின் தொடர்ச்சியையும் பொறுப்பையும் உறுதி செய்கின்றன. ஆவணங்கள் துல்லியமாகவும் பாதுகாப்பாகவும் சேமிக்கப்பட வேண்டும்.",
+      "தொழில் வளர்ச்சி தொடர்ச்சியான செயல்முறை. முன்னேற்றத்தை மதிப்பிட்டு, புதிய கருவிகளைக் கற்று, பயனுள்ள கருத்துகளைப் பெறுவது மாற்றங்களுக்கு ஏற்ப உதவும்.",
+      "வெற்றிகரமான தேர்வுப் பயிற்சி உண்மையான தேர்வு சூழலை ஒத்திருக்க வேண்டும். நேர வரம்புள்ள பயிற்சியும் முடிவுகளை ஆய்வு செய்வதும் ஒழுங்கான பழக்கமும் உதவும்."
+    ]
   }
 };
+
+
+
+let currentLanguage=localStorage.getItem("starlight-language")||"en";
+function toggleTheme(){
+  const dark=document.body.classList.toggle("dark-mode");
+  localStorage.setItem("starlight-theme",dark?"dark":"light");
+  $("themeToggle").textContent=dark?"☀️ Light":"🌙 Dark";
+}
+function toggleLanguage(){
+  currentLanguage=currentLanguage==="en"?"ta":"en";
+  localStorage.setItem("starlight-language",currentLanguage);
+  applyInterfaceLanguage();
+}
+const translations={
+ "Our Sections":"எங்கள் பிரிவுகள்","How It Works":"எப்படி செயல்படுகிறது","My Dashboard":"எனது டாஷ்போர்டு","Login / Register":"உள்நுழை / பதிவு செய்","Log out":"வெளியேறு",
+ "Your skills. Your future.":"உங்கள் திறன். உங்கள் எதிர்காலம்.","Learn a skill.":"ஒரு திறனைக் கற்றுக்கொள்ளுங்கள்.","Reach your next level.":"அடுத்த நிலையை அடையுங்கள்.",
+ "Explore Sections →":"பிரிவுகளைப் பாருங்கள் →","Student Login":"மாணவர் உள்நுழைவு","Choose your path":"உங்கள் பாதையைத் தேர்ந்தெடுக்கவும்","Three ways to move forward":"முன்னேற மூன்று வழிகள்",
+ "Typing":"தட்டச்சு","Shorthand":"சுருக்கெழுத்து","Mock Test Practice":"மாதிரித் தேர்வு பயிற்சி","Full learning course":"முழுப் பயிற்சி வகுப்பு","Practice-only option":"பயிற்சி மட்டும்",
+ "Student account":"மாணவர் கணக்கு","Log in or create your Starlight Online Academy account.":"உங்கள் கணக்கில் உள்நுழையவும் அல்லது புதிய கணக்கை உருவாக்கவும்.",
+ "Login":"உள்நுழை","Create account":"கணக்கை உருவாக்கு","Full name":"முழுப் பெயர்","Username":"பயனர் பெயர்","Email address":"மின்னஞ்சல் முகவரி","Password":"கடவுச்சொல்","Create password":"கடவுச்சொல்லை உருவாக்கவும்",
+ "Student dashboard":"மாணவர் டாஷ்போர்டு","← Homepage":"← முகப்புப் பக்கம்","Choose an activity to continue.":"தொடர ஒரு செயல்பாட்டைத் தேர்ந்தெடுக்கவும்.",
+ "Start test":"தேர்வைத் தொடங்கு","Start selected passage →":"தேர்ந்தெடுத்த பத்தியைத் தொடங்கு →","Finish test":"தேர்வை முடி","Time remaining":"மீதமுள்ள நேரம்","Choose a passage":"ஒரு பத்தியைத் தேர்ந்தெடுக்கவும்",
+ "Choose one of the 24 passages":"24 பத்திகளில் ஒன்றைத் தேர்ந்தெடுக்கவும்","Typing language":"தட்டச்சு மொழி","Level":"நிலை","Duration":"கால அளவு","Junior":"தொடக்கநிலை","Senior":"மேல்நிலை",
+ "Ready to begin?":"தொடங்கத் தயாரா?","Learn • Practise • Improve":"கற்றுக்கொள் • பயிற்சி செய் • முன்னேறு"
+};
+function applyInterfaceLanguage(){
+  document.documentElement.lang=currentLanguage==="ta"?"ta":"en";
+  $("languageToggle").textContent=currentLanguage==="ta"?"English":"தமிழ்";
+  const map=currentLanguage==="ta"?translations:Object.fromEntries(Object.entries(translations).map(([en,ta])=>[ta,en]));
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+    const raw=node.nodeValue,trim=raw.trim();
+    if(map[trim])node.nodeValue=raw.replace(trim,map[trim]);
+  });
+  document.querySelectorAll("[placeholder]").forEach(el=>{
+    if(!el.dataset.originalPlaceholder)el.dataset.originalPlaceholder=el.placeholder;
+    const base=el.dataset.originalPlaceholder;
+    if(currentLanguage==="ta"){
+      const placeholders={"Your full name":"உங்கள் முழுப் பெயர்","Enter your password":"கடவுச்சொல்லை உள்ளிடவும்","Start typing here when you're ready…":"தயாரானதும் இங்கே தட்டச்சு செய்யத் தொடங்குங்கள்…"};
+      el.placeholder=placeholders[base]||base;
+    }else el.placeholder=base;
+  });
+}
 
 function $(id){return document.getElementById(id)}
 function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
@@ -258,6 +403,9 @@ async function logout(){
 }
 $("menuToggle").addEventListener("click",()=>$("navlinks").classList.toggle("open"));
 $("year").textContent=new Date().getFullYear();
+if(localStorage.getItem("starlight-theme")==="dark")document.body.classList.add("dark-mode");
+$("themeToggle").textContent=document.body.classList.contains("dark-mode")?"☀️ Light":"🌙 Dark";
+applyInterfaceLanguage();
 
 $("loginForm").addEventListener("submit",async e=>{
   e.preventDefault();clearMessage("authMessage");
@@ -320,29 +468,49 @@ function openSection(section){
     </div><div class="notice info" style="margin-top:18px">Mock-test packages and payment are not active yet. This starter version lets us build and test the structure before accepting payments.</div>`;
   }
   showPage("section");
+  applyInterfaceLanguage();
 }
 function renderTypingOptions(isMock){
   $("sectionContent").innerHTML=`
     <div class="panel">
-      <h2>${isMock?"Typing Mock Test":"Typing Practice Test"}</h2>
-      <p style="color:var(--muted)">Choose the language and level, then start a 10-minute test. Type the passage as accurately as possible.</p>
+      <h2>${isMock?"Typing Mock Tests":"Typing Practice Test"}</h2>
+      <p style="color:var(--muted)">Choose your typing language, level, passage number and duration. You can practise any passage in any order.</p>
       <div class="test-toolbar">
-        <div class="field"><label for="testLanguage">Language</label><select id="testLanguage"><option>English</option><option>Tamil</option></select></div>
+        <div class="field"><label for="testLanguage">Typing language</label><select id="testLanguage"><option>English</option><option>Tamil</option></select></div>
         <div class="field"><label for="testLevel">Level</label><select id="testLevel"><option>Junior</option><option>Senior</option></select></div>
         <div class="field"><label for="testDuration">Duration</label><select id="testDuration"><option value="600">10 minutes</option><option value="300">5 minutes</option><option value="60">1 minute (quick practice)</option></select></div>
-        <button class="btn btn-primary" id="startTypingBtn" onclick="startTypingTest()">Start test</button>
       </div>
-      <div id="typingTestArea"><div class="empty">Choose your options and click Start test.</div></div>
+      <h3>Choose one of the 24 passages</h3>
+      <div id="passageChoices" class="passage-grid" aria-label="Choose passage"></div>
+      <button class="btn btn-primary" id="startTypingBtn" onclick="startTypingTest()">Start selected passage →</button>
+      <div id="typingTestArea"><div class="empty">Choose a passage and click Start test.</div></div>
     </div>
     <div id="typingResultArea" style="margin-top:18px"></div>`;
+  $("testLanguage").value=currentLanguage==="ta"?"Tamil":"English";
+  renderPassageChoices();
+  $("testLanguage").addEventListener("change",renderPassageChoices);
+  $("testLevel").addEventListener("change",renderPassageChoices);
 }
+let selectedPassageNumber=1;
+function renderPassageChoices(){
+  const area=$("passageChoices");if(!area)return;
+  const language=$("testLanguage").value,level=$("testLevel").value;
+  area.innerHTML=passageSets[language][level].map((p,i)=>`<button type="button" class="passage-choice ${i+1===selectedPassageNumber?"selected":""}" onclick="selectPassage(${i+1})" aria-pressed="${i+1===selectedPassageNumber}">Passage ${i+1}<small>${p.split(/\\s+/).length} words</small></button>`).join("");
+}
+function selectPassage(number){
+  selectedPassageNumber=number;
+  renderPassageChoices();
+  const area=$("typingTestArea");
+  if(area)area.innerHTML=`<div class="empty">Passage ${number} selected. Click “Start selected passage” when ready.</div>`;
+}
+
 function startTypingTest(){
   const language=$("testLanguage").value,level=$("testLevel").value,duration=Number($("testDuration").value);
-  const passage=passages[language][level];
-  activeTest={language,level,duration,passage};
+  const passage=passageSets[language][level][selectedPassageNumber-1];
+  activeTest={language,level,duration,passage,passageNumber:selectedPassageNumber};
   secondsRemaining=duration;testStartedAt=Date.now();testFinished=false;
   $("typingTestArea").innerHTML=`
-    <div class="test-status"><div><span class="tag">${escapeHtml(language)} · ${escapeHtml(level)}</span><p style="margin:8px 0 0;color:var(--muted)">Type the full passage shown below into the box. The passage is longer for a more useful timed practice session.</p></div><div><small style="color:var(--muted);display:block">Time remaining</small><div class="timer" id="timerDisplay">${formatTime(secondsRemaining)}</div></div></div>
+    <div class="test-status"><div><span class="tag">${escapeHtml(language)} · ${escapeHtml(level)} · Passage ${selectedPassageNumber}</span><p style="margin:8px 0 0;color:var(--muted)">Type the selected passage shown below into the box. You may finish before the timer ends.</p></div><div><small style="color:var(--muted);display:block">Time remaining</small><div class="timer" id="timerDisplay">${formatTime(secondsRemaining)}</div></div></div>
     <div class="passage" id="testPassage">${escapeHtml(passage)}</div>
     <textarea id="typingInput" class="typing-area" placeholder="Start typing here when you're ready…" spellcheck="false" autocapitalize="off"></textarea>
     <div class="test-status" style="margin-top:12px"><span id="liveStats">WPM: 0 · Accuracy: 100%</span><button type="button" class="btn btn-primary" id="finishTestBtn">Finish test</button></div>`;
@@ -371,12 +539,18 @@ function startTypingTest(){
 }
 function formatTime(seconds){const m=Math.floor(seconds/60),s=seconds%60;return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
 function calculateStats(typed,passage,elapsedSeconds){
+  // Count only incorrect or extra characters actually typed; an unfinished passage
+  // does not count every character the student has not reached as an error.
   let correct=0,errors=0;
-  for(let i=0;i<typed.length;i++){if(i<passage.length&&typed[i]===passage[i])correct++;else errors++}
+  for(let i=0;i<typed.length;i++){
+    if(i<passage.length && typed[i]===passage[i]) correct++;
+    else errors++;
+  }
   const accuracy=typed.length?Math.round((correct/typed.length)*1000)/10:0;
   const minutes=Math.max(elapsedSeconds/60,1/60);
-  const wpm=Math.round((typed.trim()?typed.trim().split(/\s+/).length:0)/minutes);
-  return {wpm,accuracy,errors,correct,typedChars:typed.length};
+  const wpm=Math.round((typed.length/5)/minutes);
+  const netWpm=Math.max(0,Math.round(wpm-(errors/5)/minutes));
+  return {wpm,netWpm,accuracy,errors,correct,typedChars:typed.length};
 }
 function updateLiveStats(){
   if(!activeTest||testFinished)return;
@@ -395,11 +569,11 @@ async function finishTypingTest(manual){
   if(input)input.disabled=true;
   const finishButton = $("finishTestBtn");
   if(finishButton) finishButton.disabled=true;
-  const resultHtml=`<div class="panel"><h2>Test result</h2><p style="color:var(--muted)">Your practice attempt is complete. WPM is calculated from words typed per minute; accuracy compares the text typed with the displayed passage.</p><div class="result-grid"><div class="result-box"><strong>${stats.wpm}</strong><span>Words per minute</span></div><div class="result-box"><strong>${stats.accuracy}%</strong><span>Accuracy</span></div><div class="result-box"><strong>${stats.errors}</strong><span>Character errors</span></div></div><div id="saveResultMessage" style="margin-top:12px"></div><div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-primary" onclick="startTypingTest()">Try again</button><button class="btn btn-outline" onclick="showPage(currentUser?'dashboard':'home')">Back to ${currentUser?"dashboard":"home"}</button></div></div>`;
+  const resultHtml=`<div class="panel"><h2>Test result</h2><p style="color:var(--muted)">Your practice attempt is complete. WPM is calculated from words typed per minute; accuracy compares the text typed with the displayed passage.</p><div class="result-grid"><div class="result-box"><strong>${stats.wpm}</strong><span>Gross WPM</span></div><div class="result-box"><strong>${stats.netWpm}</strong><span>Net WPM</span></div><div class="result-box"><strong>${stats.accuracy}%</strong><span>Accuracy · ${stats.errors} errors</span></div></div><div id="saveResultMessage" style="margin-top:12px"></div><div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-primary" onclick="startTypingTest()">Try again</button><button class="btn btn-outline" onclick="showPage(currentUser?'dashboard':'home')">Back to ${currentUser?"dashboard":"home"}</button></div></div>`;
   $("typingResultArea").innerHTML=resultHtml;
   if(db&&currentUser){
     try{
-      const {error}=await db.from("typing_results").insert({user_id:currentUser.id,passage_name:`${activeTest.language} ${activeTest.level} ${activeTest.duration/60}-minute test`,level:activeTest.level,language:activeTest.language,wpm:stats.wpm,accuracy:stats.accuracy,errors:stats.errors,duration_seconds:elapsed});
+      const {error}=await db.from("typing_results").insert({user_id:currentUser.id,passage_name:`Passage ${activeTest.passageNumber} · ${activeTest.language} ${activeTest.level} ${activeTest.duration/60}-minute test`,level:activeTest.level,language:activeTest.language,wpm:stats.wpm,accuracy:stats.accuracy,errors:stats.errors,duration_seconds:elapsed});
       if(error)throw error;
       showMessage("saveResultMessage","Result saved to your student account.","success");
     }catch(err){showMessage("saveResultMessage","Test completed, but the result could not be saved. Check your Supabase typing_results table and insert policy. "+(err.message||""),"warn")}
@@ -419,7 +593,23 @@ function renderShorthandTests(){
   $("sectionSubtitle").textContent="A separate practice area for students who only need shorthand tests.";
   $("sectionContent").innerHTML=`<div class="panel"><div class="service-icon">📝</div><h2>Shorthand Mock Test Library</h2><p>Here we will add selectable dictation tests, test duration, practice instructions, and a results screen.</p><div class="notice info">This section is a placeholder in this first website file. Real shorthand passages, audio, scoring rules and packages need to be added before launch.</div><button class="btn btn-outline" onclick="openSection('mock')">← Back to Mock Test Practice</button></div>`;
 }
+async function loadLeaderboard(){
+  const area=$("leaderboardArea");
+  if(!area)return;
+  if(!db){area.innerHTML='<div class="notice warn">Leaderboard is unavailable because the database is not connected.</div>';return;}
+  area.innerHTML='<div class="empty">Loading top scores…</div>';
+  try{
+    const {data,error}=await db.from("typing_leaderboard").select("username,level,language,wpm,accuracy").order("wpm",{ascending:false}).order("accuracy",{ascending:false}).limit(10);
+    if(error)throw error;
+    if(!data||!data.length){area.innerHTML='<div class="empty">No saved typing results yet. Complete a test and save your result to appear here.</div>';return;}
+    area.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Rank</th><th>Student</th><th>Level</th><th>Language</th><th>Best WPM</th><th>Accuracy</th></tr></thead><tbody>${data.map((r,i)=>`<tr><td>${i+1===1?'🥇':i+1===2?'🥈':i+1===3?'🥉':i+1}</td><td>${escapeHtml(r.username||'Student')}</td><td>${escapeHtml(r.level||'—')}</td><td>${escapeHtml(r.language||'—')}</td><td><strong>${escapeHtml(r.wpm)}</strong></td><td>${escapeHtml(r.accuracy)}%</td></tr>`).join('')}</tbody></table></div>`;
+  }catch(err){
+    area.innerHTML=`<div class="notice warn">Leaderboard setup is not complete yet. Run the leaderboard SQL in your Supabase SQL Editor. ${escapeHtml(err.message||'')}</div>`;
+  }
+}
+
 async function loadDashboard(){
+  loadLeaderboard();
   if(!currentUser){
     $("welcomeText").textContent="Log in to see your personal dashboard.";
     $("dashboardMessage").innerHTML=`<div class="notice info">You can explore the website without logging in. Log in or create an account to use account-based features and save typing results.</div>`;
