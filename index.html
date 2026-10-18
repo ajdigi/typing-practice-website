@@ -2,311 +2,336 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Typing Practice</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; font-family: Arial, sans-serif;
-      background: #f4f6fb; color: #20243a;
-    }
-    header {
-      background: #39236b; color: white;
-      padding: 22px; text-align: center;
-    }
-    main { max-width: 850px; margin: 25px auto; padding: 16px; }
-    .card {
-      background: white; padding: 24px; margin-bottom: 20px;
-      border-radius: 14px; box-shadow: 0 4px 18px #20243a12;
-    }
-    input, textarea, button {
-      width: 100%; padding: 12px; margin: 7px 0;
-      font: inherit; border-radius: 8px;
-    }
-    input, textarea { border: 1px solid #cbd0df; }
-    button {
-      border: 0; background: #5b36b5; color: white;
-      font-weight: bold; cursor: pointer;
-    }
-    button:disabled { opacity: .5; cursor: not-allowed; }
-    .secondary { background: #e9e3fa; color: #39236b; }
-    .stats { display: flex; gap: 12px; flex-wrap: wrap; }
-    .stat {
-      flex: 1; min-width: 100px; background: #f0ebfc;
-      padding: 14px; border-radius: 10px; text-align: center;
-    }
-    #passage { line-height: 1.8; font-size: 18px; }
-    #message { white-space: pre-wrap; }
-    .hidden { display: none; }
-    @media (max-width: 600px) { main { padding: 10px; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Typing Practice | Student Portal</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+:root{--blue:#2449a8;--bg:#f4f6fa;--border:#e0e5ed;--text:#243047}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.topbar{background:white;border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
+.brand{font-size:21px;font-weight:800;color:var(--blue)}
+.nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.nav button,.secondary{border:1px solid var(--border);background:white;padding:10px 14px;border-radius:8px;color:var(--text)}
+.nav .active,.primary{background:var(--blue);color:white;border:1px solid var(--blue)}
+.useremail{background:#f0f2f6;padding:10px 12px;border-radius:20px;font-size:13px}
+main{max-width:1500px;margin:24px auto;padding:0 22px}
+.card{background:white;border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:18px;box-shadow:0 2px 4px #1725540a}
+h1{font-size:25px;margin:0 0 8px}
+h2{font-size:18px;margin:0 0 16px}
+.muted{color:#667085;font-size:14px;line-height:1.6}
+.auth-wrap{max-width:440px;margin:60px auto}
+.auth-wrap .card{padding:30px}
+.field{display:block;width:100%;padding:13px;border:1px solid #cbd3df;border-radius:8px;margin:8px 0 15px}
+.primary{padding:12px 18px;border-radius:8px;font-weight:700}
+.full{width:100%}
+.link{color:var(--blue);cursor:pointer;text-decoration:underline;font-size:14px}
+.message{font-size:14px;line-height:1.5;margin:12px 0;color:#a32626}
+.hidden{display:none!important}
+.timer-card{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:22px 26px}
+.timer{font-size:34px;font-weight:800;font-family:monospace;color:#101828}
+.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.toolbar label{font-size:13px;color:#667085}
+.toolbar select{padding:9px;border:1px solid var(--border);border-radius:8px;background:white}
+.test-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}
+.panel{background:white;border:1px solid var(--border);border-radius:14px;overflow:hidden;min-width:0}
+.panel-head{padding:16px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.passage{height:440px;overflow:auto;padding:22px;background:#fbfcfe;font-family:Consolas,monospace;font-size:16px;line-height:1.85;white-space:pre-wrap}
+.response{width:100%;height:440px;resize:vertical;border:0;outline:none;padding:22px;font-family:Consolas,monospace;font-size:16px;line-height:1.85}
+.response:focus{box-shadow:inset 0 0 0 2px #7ba2ff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{background:#f8faff;border:1px solid var(--border);padding:15px;border-radius:10px}
+.stat strong{display:block;font-size:24px;margin-top:7px}
+.status{font-size:14px;margin-top:12px;line-height:1.5}
+@media(max-width:850px){.test-grid{grid-template-columns:1fr}.passage,.response{height:330px}.stats{grid-template-columns:repeat(2,1fr)}main{padding:0 12px}.topbar{padding:14px}}
+</style>
 </head>
 <body>
-<header>
-  <h1>Typing Practice</h1>
-  <p>Improve your speed. Build your accuracy.</p>
+<header class="topbar">
+  <div class="brand">⌨ Typing Practice</div>
+  <nav class="nav">
+    <button id="dashboardBtn" class="active hidden">Dashboard</button>
+    <button id="testNavBtn" class="hidden">Typing Test</button>
+    <span id="userEmail" class="useremail hidden"></span>
+    <button id="logoutBtn" class="hidden">Logout ↗</button>
+  </nav>
 </header>
 
-<main>
-  <section class="card" id="authCard">
-    <h2>Student Login</h2>
-    <p>Create an account or sign in to begin.</p>
+<section id="authSection" class="auth-wrap">
+  <div class="card">
+    <h1 id="authTitle">Student Login</h1>
+    <p class="muted">Sign in to access your typing practice.</p>
     <form id="authForm">
       <label for="email">Email address</label>
-      <input id="email" type="email" autocomplete="email"
-        placeholder="Enter your email" required>
-
-      <label for="password">Password (minimum 8 characters)</label>
-      <input id="password" type="password"
-        autocomplete="current-password" minlength="8"
-        placeholder="Enter your password" required>
-
-      <button type="submit">Log in</button>
-      <button type="button" class="secondary" id="signupBtn">
-        Create new account
-      </button>
-      <button type="button" class="secondary" id="resetBtn">
-        Forgot password?
-      </button>
+      <input class="field" id="email" type="email" autocomplete="email" required placeholder="you@example.com">
+      <label for="password">Password</label>
+      <input class="field" id="password" type="password" minlength="8" autocomplete="current-password" required placeholder="At least 8 characters">
+      <button id="authSubmit" class="primary full" type="submit">Login</button>
     </form>
-    <p id="message" role="status" aria-live="polite"></p>
+    <p id="authMessage" class="message" role="status"></p>
+    <p><span id="switchAuth" class="link">New student? Create an account</span></p>
+    <p><span id="resetPassword" class="link">Forgot password?</span></p>
+  </div>
+</section>
+
+<main id="appSection" class="hidden">
+  <section id="dashboardSection" class="card">
+    <h1>Student Dashboard</h1>
+    <p class="muted">Welcome! Choose your typing practice to get started.</p>
+    <div class="card">
+      <h2>10-Minute Typing Test</h2>
+      <p class="muted">Practise English or Tamil typing, then submit your response to view your results.</p>
+      <button id="startFromDashboard" class="primary">Start Typing Test →</button>
+    </div>
+    <p class="muted">Your results will appear here after the test. Saving results to your student account is a separate setup step.</p>
   </section>
 
-  <section class="card hidden" id="studentCard">
-    <p>Signed in as: <strong id="studentEmail"></strong></p>
-    <button id="logoutBtn" class="secondary">Log out</button>
-  </section>
-
-  <section class="card hidden" id="testCard">
-    <h2>10-Minute English Typing Test</h2>
-    <p>The test lasts exactly 10 minutes once started.
-       Your timer cannot be restarted during the same attempt.</p>
-
-    <div class="stats">
-      <div class="stat">Time left<br><strong id="timer">10:00</strong></div>
-      <div class="stat">WPM<br><strong id="wpm">0</strong></div>
-      <div class="stat">Accuracy<br><strong id="accuracy">100%</strong></div>
+  <section id="testSection" class="hidden">
+    <div class="card timer-card">
+      <div>
+        <div class="muted">TIME REMAINING</div>
+        <div id="timer" class="timer">10:00</div>
+        <div id="testStatus" class="status">Choose your language, then press Start Test.</div>
+      </div>
+      <div class="toolbar">
+        <label for="language">Language</label>
+        <select id="language">
+          <option value="en">English</option>
+          <option value="ta">Tamil</option>
+        </select>
+        <label for="columns">Passage view</label>
+        <select id="columns">
+          <option value="1">1 column</option>
+          <option value="2">2 columns</option>
+        </select>
+        <button id="startTest" class="primary">Start 10-Minute Test</button>
+        <button id="submitTest" class="primary" disabled>Submit</button>
+      </div>
     </div>
 
-    <h3>Type the passage below</h3>
-    <p id="passage"></p>
-    <textarea id="typingInput" rows="7"
-      placeholder="Press Start Test, then type here..."
-      disabled spellcheck="false" autocapitalize="off"></textarea>
-    <button id="startBtn">Start 10-Minute Test</button>
-    <p id="testMessage" role="status" aria-live="polite"></p>
+    <div class="test-grid">
+      <section class="panel">
+        <div class="panel-head">
+          <strong>Typing Passage</strong>
+          <span id="passageLabel" class="muted">English practice</span>
+        </div>
+        <div id="passage" class="passage"></div>
+      </section>
+      <section class="panel">
+        <div class="panel-head">
+          <strong>Your Response</strong>
+          <span class="muted">Type the passage here</span>
+        </div>
+        <textarea id="response" class="response" placeholder="Press Start Test, then type here..." disabled spellcheck="false" autocapitalize="off"></textarea>
+      </section>
+    </div>
+
+    <section id="resultsSection" class="card hidden">
+      <h2>Test Results</h2>
+      <div class="stats">
+        <div class="stat">Gross WPM<strong id="grossWpm">0</strong></div>
+        <div class="stat">Accuracy<strong id="accuracy">0%</strong></div>
+        <div class="stat">Correct characters<strong id="correctChars">0</strong></div>
+        <div class="stat">Errors<strong id="errors">0</strong></div>
+      </div>
+      <p id="resultMessage" class="status"></p>
+      <p class="muted">These results are currently displayed in this browser only. They are not yet saved to your account.</p>
+      <button id="backDashboard" class="secondary">Back to Dashboard</button>
+    </section>
   </section>
 </main>
 
 <script>
-  // These are the public project URL and publishable key.
-  // Never put a database password or secret key here.
-  const SUPABASE_URL = "https://zlqeqplrkvcrotacpqzs.supabase.co";
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_zkHYkzk-lV11fx_kDNz9Lw_iqwjarlB";
+const SUPABASE_URL = "https://zlqeqplrkvcrotacpqzs.supabase.co";
+const SUPABASE_KEY = "sb_publishable_zkHYkzk-lV11fx_kDNz9Lw_iqwjarlB";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const db = window.supabase.createClient(
-    SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY
-  );
+const $ = id => document.getElementById(id);
+let authMode = "login";
+let currentUser = null;
+let testRunning = false;
+let testFinished = false;
+let timeLeft = 600;
+let timerInterval = null;
+let startedAt = 0;
 
-  const $ = id => document.getElementById(id);
-  let testStarted = false;
-  let testFinished = false;
-  let startTime = 0;
-  let timerId = null;
-  const DURATION_MS = 10 * 60 * 1000;
+const passages = {
+  en: `Regular practice helps students improve their typing speed and accuracy. A good typist maintains a steady rhythm and pays attention to each word. Sit comfortably, keep your wrists relaxed, and place your fingers on the correct keys. Look at the passage instead of watching your fingers all the time. When you make a mistake, continue calmly and learn from it. Accuracy should come first because speed improves with practice. Set a realistic goal for each session and compare your results over time. Consistent effort builds concentration, confidence, and reliable typing skills. Every student begins at a different level, so focus on improving your own performance. Take short breaks, maintain a comfortable posture, and practise regularly. With patience and effort, typing can become smoother, faster, and more accurate.`,
+  ta: `தொடர்ந்து பயிற்சி செய்வது தட்டச்சு வேகத்தையும் துல்லியத்தையும் மேம்படுத்த உதவுகிறது. ஒவ்வொரு சொல்லையும் கவனமாக தட்டச்சு செய்ய வேண்டும். வசதியாக அமர்ந்து, கைகளை தளர்வாக வைத்து, சரியான விசைகளைப் பயன்படுத்துங்கள். தட்டச்சு செய்யும் போது திரையில் உள்ள உரையை கவனியுங்கள். தவறு ஏற்பட்டால் பதற்றமடையாமல் தொடர்ந்து பயிற்சி செய்யுங்கள். முதலில் துல்லியத்திற்கு முக்கியத்துவம் கொடுங்கள். தொடர்ந்து முயற்சி செய்தால் வேகம் படிப்படியாக அதிகரிக்கும். ஒவ்வொரு பயிற்சியிலும் ஒரு சிறிய இலக்கை நிர்ணயித்து உங்கள் முன்னேற்றத்தை கவனியுங்கள். இடைவெளி எடுத்துக் கொண்டு, சரியான உடல் நிலையில் அமர்ந்து, தினமும் பயிற்சி செய்வது நல்ல பழக்கமாகும். பொறுமையும் முயற்சியும் தட்டச்சுத் திறனை மேம்படுத்தும்.`
+};
 
-  const passageText = `
-    Regular typing practice helps students improve their speed,
-    accuracy, concentration, and confidence. A good typist learns
-    to maintain a steady rhythm instead of rushing through every
-    sentence. Sit comfortably, keep your wrists relaxed, and place
-    your fingers on the correct keys. Look at the text you are
-    copying rather than watching your fingers all the time.
-    Consistent practice is more useful than practising only once
-    in a while. When you make a mistake, continue calmly and learn
-    which keys need more attention. Set a realistic goal for each
-    session and compare your results over time. Accuracy should
-    come first because speed improves naturally as your movements
-    become more familiar. Take short breaks between practice
-    sessions, keep a comfortable posture, and avoid unnecessary
-    tension in your shoulders. Every student starts at a different
-    level, so focus on improving your own performance rather than
-    comparing yourself with others. With patience and regular
-    effort, typing can become smoother, faster, and more reliable.
-  `.replace(/\s+/g, " ").trim();
-
-  // Repeat the passage to provide enough text for a full test.
-  const passage = (passageText + " ").repeat(12);
-  $("passage").textContent = passage;
-
-  function showMessage(text) {
-    $("message").textContent = text;
+function showMessage(text, isError=false) {
+  $("authMessage").textContent = text;
+  $("authMessage").style.color = isError ? "#a32626" : "#176b3a";
+}
+function setAuthMode(mode) {
+  authMode = mode;
+  $("authTitle").textContent = mode === "signup" ? "Create Student Account" : "Student Login";
+  $("authSubmit").textContent = mode === "signup" ? "Create Account" : "Login";
+  $("switchAuth").textContent = mode === "signup" ? "Already registered? Login" : "New student? Create an account";
+  $("password").autocomplete = mode === "signup" ? "new-password" : "current-password";
+  showMessage("");
+}
+function showLoggedOut() {
+  currentUser = null;
+  $("authSection").classList.remove("hidden");
+  $("appSection").classList.add("hidden");
+  ["dashboardBtn","testNavBtn","userEmail","logoutBtn"].forEach(id => $(id).classList.add("hidden"));
+  stopTimer();
+  testRunning = false;
+  testFinished = false;
+  $("response").value = "";
+  $("response").disabled = true;
+  $("startTest").disabled = false;
+  $("submitTest").disabled = true;
+}
+function showLoggedIn(user) {
+  currentUser = user;
+  $("authSection").classList.add("hidden");
+  $("appSection").classList.remove("hidden");
+  ["dashboardBtn","testNavBtn","userEmail","logoutBtn"].forEach(id => $(id).classList.remove("hidden"));
+  $("userEmail").textContent = user.email || "Student";
+  showDashboard();
+}
+function showDashboard() {
+  $("dashboardSection").classList.remove("hidden");
+  $("testSection").classList.add("hidden");
+  $("dashboardBtn").classList.add("active");
+  $("testNavBtn").classList.remove("active");
+}
+function showTest() {
+  $("dashboardSection").classList.add("hidden");
+  $("testSection").classList.remove("hidden");
+  $("dashboardBtn").classList.remove("active");
+  $("testNavBtn").classList.add("active");
+}
+function stopTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+}
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return String(mins).padStart(2,"0") + ":" + String(secs).padStart(2,"0");
+}
+function renderPassage() {
+  const lang = $("language").value;
+  $("passage").textContent = passages[lang];
+  $("passageLabel").textContent = lang === "ta" ? "தமிழ் பயிற்சி" : "English practice";
+  $("passage").style.columnCount = $("columns").value;
+  $("passage").style.columnGap = "30px";
+}
+function beginTest() {
+  if (!currentUser || testRunning || testFinished) return;
+  renderPassage();
+  timeLeft = 600;
+  startedAt = Date.now();
+  testRunning = true;
+  $("timer").textContent = formatTime(timeLeft);
+  $("response").disabled = false;
+  $("response").value = "";
+  $("response").focus();
+  $("startTest").disabled = true;
+  $("submitTest").disabled = false;
+  $("language").disabled = true;
+  $("columns").disabled = false;
+  $("resultsSection").classList.add("hidden");
+  $("testStatus").textContent = "Test in progress. Your time is counting down.";
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    $("timer").textContent = formatTime(timeLeft);
+    if (timeLeft <= 0) finishTest(true);
+  }, 1000);
+}
+function finishTest(auto=false) {
+  if (!testRunning) return;
+  stopTimer();
+  testRunning = false;
+  testFinished = true;
+  $("response").disabled = true;
+  $("submitTest").disabled = true;
+  $("language").disabled = false;
+  $("startTest").disabled = false;
+  const target = Array.from($("passage").textContent);
+  const typed = Array.from($("response").value);
+  let correct = 0;
+  const max = Math.max(target.length, typed.length);
+  for (let i=0;i<Math.min(target.length,typed.length);i++) {
+    if (target[i] === typed[i]) correct++;
   }
-
-  function showSignedIn(user) {
-    $("authCard").classList.add("hidden");
-    $("studentCard").classList.remove("hidden");
-    $("testCard").classList.remove("hidden");
-    $("studentEmail").textContent = user.email || "Student";
-  }
-
-  function showSignedOut() {
-    $("authCard").classList.remove("hidden");
-    $("studentCard").classList.add("hidden");
-    $("testCard").classList.add("hidden");
-  }
-
-  $("authForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    showMessage("Logging in...");
-    const email = $("email").value.trim();
-    const password = $("password").value;
-
-    const { data, error } = await db.auth.signInWithPassword({
-      email, password
-    });
-
-    if (error) {
-      showMessage(error.message);
-      return;
-    }
-
-    showMessage("");
-    showSignedIn(data.user);
-  });
-
-  $("signupBtn").addEventListener("click", async () => {
-    const email = $("email").value.trim();
-    const password = $("password").value;
-
-    if (!email || password.length < 8) {
-      showMessage("Enter a valid email and a password of at least 8 characters.");
-      return;
-    }
-
-    showMessage("Creating your account...");
-    const { data, error } = await db.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: window.location.origin
-      }
-    });
-
-    if (error) {
-      showMessage(error.message);
-      return;
-    }
-
-    if (data.session && data.user) {
-      showSignedIn(data.user);
-      showMessage("Your account is ready.");
+  const errors = max - correct;
+  const elapsedMinutes = Math.max((Date.now()-startedAt)/60000, 1/60);
+  const grossWpm = Math.round((typed.length/5)/elapsedMinutes);
+  const accuracy = typed.length ? Math.round(correct/typed.length*100) : 0;
+  $("grossWpm").textContent = grossWpm;
+  $("accuracy").textContent = accuracy + "%";
+  $("correctChars").textContent = correct;
+  $("errors").textContent = errors;
+  $("timer").textContent = formatTime(timeLeft);
+  $("testStatus").textContent = auto ? "Time is up. Your test has been submitted." : "Test submitted.";
+  $("resultMessage").textContent = "Review your results and practise again to improve.";
+  $("resultsSection").classList.remove("hidden");
+  $("resultsSection").scrollIntoView({behavior:"smooth",block:"start"});
+}
+$("authForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const email = $("email").value.trim();
+  const password = $("password").value;
+  $("authSubmit").disabled = true;
+  showMessage(authMode === "signup" ? "Creating your account..." : "Signing in...");
+  try {
+    if (authMode === "signup") {
+      const {data,error} = await db.auth.signUp({
+        email,password,
+        options:{emailRedirectTo:window.location.href}
+      });
+      if (error) throw error;
+      if (data.session) showLoggedIn(data.session.user);
+      else showMessage("Account created. Check your email for the confirmation link, then return here to log in.");
     } else {
-      showMessage(
-        "Registration submitted. Check your email for the confirmation link. " +
-        "After confirming, return here and log in."
-      );
+      const {data,error} = await db.auth.signInWithPassword({email,password});
+      if (error) throw error;
+      showLoggedIn(data.user);
     }
-  });
-
-  $("resetBtn").addEventListener("click", async () => {
-    const email = $("email").value.trim();
-    if (!email) {
-      showMessage("Enter your email address first.");
-      return;
-    }
-    const { error } = await db.auth.resetPasswordForEmail(email, {
-      redirectTo: window.location.origin
-    });
-    showMessage(error
-      ? error.message
-      : "If the account exists, a password reset email will be sent.");
-  });
-
-  $("logoutBtn").addEventListener("click", async () => {
-    const { error } = await db.auth.signOut();
-    if (error) {
-      $("testMessage").textContent = error.message;
-      return;
-    }
-    clearInterval(timerId);
-    showSignedOut();
-  });
-
-  function updateStats() {
-    const typed = $("typingInput").value;
-    const elapsedMinutes = Math.max((Date.now() - startTime) / 60000, 1 / 60);
-    let correct = 0;
-
-    for (let i = 0; i < typed.length; i++) {
-      if (typed[i] === passage[i]) correct++;
-    }
-
-    const accuracy = typed.length
-      ? Math.round((correct / typed.length) * 100) : 100;
-    const wpm = Math.round((correct / 5) / elapsedMinutes);
-
-    $("wpm").textContent = wpm;
-    $("accuracy").textContent = accuracy + "%";
+  } catch(error) {
+    showMessage(error.message || "Something went wrong. Please try again.",true);
+  } finally {
+    $("authSubmit").disabled = false;
   }
+});
+$("switchAuth").addEventListener("click", () => setAuthMode(authMode === "login" ? "signup" : "login"));
+$("resetPassword").addEventListener("click", async () => {
+  const email = $("email").value.trim();
+  if (!email) return showMessage("Enter your email address first, then click Forgot password.",true);
+  const {error} = await db.auth.resetPasswordForEmail(email,{redirectTo:window.location.href});
+  showMessage(error ? error.message : "If the account exists, a password reset email will be sent.");
+});
+$("logoutBtn").addEventListener("click", async () => {
+  await db.auth.signOut();
+  showLoggedOut();
+});
+$("dashboardBtn").addEventListener("click",showDashboard);
+$("testNavBtn").addEventListener("click",() => {showTest();renderPassage();});
+$("startFromDashboard").addEventListener("click",() => {showTest();renderPassage();});
+$("language").addEventListener("change",renderPassage);
+$("columns").addEventListener("change",renderPassage);
+$("startTest").addEventListener("click",beginTest);
+$("submitTest").addEventListener("click",() => finishTest(false));
+$("backDashboard").addEventListener("click",showDashboard);
 
-  function finishTest() {
-    if (testFinished) return;
-    testFinished = true;
-    clearInterval(timerId);
-    $("typingInput").disabled = true;
-    $("startBtn").disabled = true;
-    updateStats();
-    $("testMessage").textContent =
-      "Test complete! Your final speed is " + $("wpm").textContent +
-      " WPM, with " + $("accuracy").textContent +
-      " accuracy. Score saving will be added in the next setup step.";
-  }
-
-  $("startBtn").addEventListener("click", () => {
-    if (testStarted || testFinished) return;
-    testStarted = true;
-    startTime = Date.now();
-    $("typingInput").disabled = false;
-    $("typingInput").focus();
-    $("startBtn").disabled = true;
-    $("testMessage").textContent = "Your 10-minute test has started.";
-
-    function tick() {
-      const remaining = Math.max(0, DURATION_MS - (Date.now() - startTime));
-      const seconds = Math.ceil(remaining / 1000);
-      $("timer").textContent =
-        Math.floor(seconds / 60).toString().padStart(2, "0") + ":" +
-        (seconds % 60).toString().padStart(2, "0");
-
-      if (remaining <= 0) finishTest();
-    }
-
-    tick();
-    timerId = setInterval(tick, 200);
-  });
-
-  $("typingInput").addEventListener("input", () => {
-    if (!testStarted || testFinished) return;
-    updateStats();
-    if ($("typingInput").value.length >= passage.length) finishTest();
-  });
-
-  async function checkSession() {
-    const { data, error } = await db.auth.getSession();
-    if (!error && data.session) showSignedIn(data.session.user);
-    else showSignedOut();
-  }
-
-  db.auth.onAuthStateChange((_event, session) => {
-    if (session) showSignedIn(session.user);
-    else showSignedOut();
-  });
-
-  checkSession();
+db.auth.onAuthStateChange((_event,session) => {
+  if (session?.user) showLoggedIn(session.user);
+  else showLoggedOut();
+});
+(async () => {
+  const {data} = await db.auth.getSession();
+  if (data.session?.user) showLoggedIn(data.session.user);
+  else showLoggedOut();
+})();
 </script>
 </body>
 </html>
