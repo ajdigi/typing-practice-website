@@ -7,7 +7,7 @@
 <title>Starlight Online Academy</title>
 <style>
 :root{--navy:#10172f;--navy2:#182344;--purple:#7958e8;--purple2:#a58bff;--gold:#f3c969;--ink:#20243a;--muted:#69718a;--paper:#f7f8fc;--white:#fff;--line:#e7e9f2;--green:#14835f;--red:#c54848;--radius:20px;--shadow:0 14px 40px rgba(25,35,75,.09)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.55}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.wrap{width:min(1120px,92%);margin:auto}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.55}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.wrap{width:min(1500px,96%);margin:auto}
 header{background:rgba(16,23,47,.97);color:white;position:sticky;top:0;z-index:20;box-shadow:0 5px 22px #0c13351c}.nav{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:76px}.brand{display:flex;align-items:center;gap:11px;color:white;text-decoration:none}.brand-icon{display:grid;place-items:center;width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,var(--purple),#4632a7);color:var(--gold);font-size:23px}.brand-name{font-weight:850;letter-spacing:.3px;line-height:1.1}.brand-name small{display:block;font-size:10px;letter-spacing:2.2px;color:#c6cde2;margin-top:5px}.navlinks{display:flex;align-items:center;gap:18px}.navlinks a{color:#e6e9f6;text-decoration:none;font-size:14px}.navlinks a:hover{color:var(--gold)}.btn{border:0;border-radius:12px;padding:12px 17px;font-weight:750;transition:.2s}.btn:hover{transform:translateY(-1px)}.btn-primary{background:var(--purple);color:white;box-shadow:0 7px 18px #7958e83a}.btn-gold{background:var(--gold);color:#262039}.btn-outline{border:1px solid #d9dced;background:white;color:var(--ink)}.btn-dark{background:var(--navy);color:white}.btn-small{padding:9px 12px;font-size:13px}.menu-toggle{display:none;background:transparent;color:white;border:0;font-size:25px}
 .hero{background:radial-gradient(circle at 80% 20%,#5944a9 0,transparent 28%),linear-gradient(120deg,#10172f,#1d2b54 68%,#32266e);color:white;overflow:hidden}.hero-inner{display:grid;grid-template-columns:1.2fr .8fr;gap:36px;align-items:center;padding:72px 0 76px}.eyebrow{display:inline-flex;gap:8px;align-items:center;border:1px solid #ffffff35;background:#ffffff0c;border-radius:100px;padding:7px 12px;color:#f6d77e;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase}.hero h1{font-size:clamp(36px,5.2vw,62px);line-height:1.06;letter-spacing:-1.7px;margin:19px 0}.hero h1 span{color:var(--gold)}.hero p{font-size:17px;color:#d9e0f4;max-width:600px}.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}.hero-note{font-size:12px!important;color:#aeb9d8!important;margin-top:16px}.hero-art{position:relative;min-height:330px;display:grid;place-items:center}.orbit{width:min(330px,80vw);aspect-ratio:1;border:1px solid #ffffff2e;border-radius:50%;display:grid;place-items:center;position:relative;background:radial-gradient(circle,#ffffff10,transparent 65%)}.orbit:before,.orbit:after{content:"";position:absolute;border:1px dashed #ffffff2c;border-radius:50%;inset:25px}.orbit:after{inset:55px}.star-core{width:145px;height:145px;border-radius:38px;display:grid;place-items:center;background:linear-gradient(145deg,#a38aff,#5740c0);box-shadow:0 18px 70px #0004;color:var(--gold);font-size:67px;transform:rotate(-7deg)}.float-card{position:absolute;background:white;color:var(--ink);padding:12px 15px;border-radius:15px;box-shadow:var(--shadow);font-weight:800;font-size:13px}.float-card small{display:block;color:var(--muted);font-weight:500}.float-one{top:30px;left:-2px}.float-two{right:-6px;top:105px}.float-three{bottom:20px;left:28px}
 .section{padding:70px 0}.section-head{text-align:center;max-width:720px;margin:0 auto 34px}.kicker{color:var(--purple);font-size:12px;font-weight:850;letter-spacing:1.8px;text-transform:uppercase}.section h2{font-size:clamp(27px,3.5vw,39px);line-height:1.2;margin:10px 0 12px;letter-spacing:-.7px}.section-head p{color:var(--muted);margin:0}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.service-card{background:white;border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:100%;position:relative;overflow:hidden}.service-card:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--purple),var(--gold))}.service-icon{width:60px;height:60px;border-radius:18px;display:grid;place-items:center;font-size:29px;background:#f0edff;margin-bottom:17px}.service-card:nth-child(2) .service-icon{background:#fff4d8}.service-card:nth-child(3) .service-icon{background:#e3f7f0}.service-card h3{font-size:22px;margin:0 0 8px}.service-card p{color:var(--muted);margin:0 0 17px}.service-card ul{padding-left:20px;color:#4d536a;font-size:14px;margin:0 0 23px}.service-card li{margin:7px 0}.card-bottom{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.tag{display:inline-flex;border-radius:100px;background:#f0edff;color:#5d43be;padding:6px 10px;font-size:11px;font-weight:850}.tag.gold{background:#fff4d8;color:#866116}.tag.green{background:#e3f7f0;color:#117450}.how{background:#fff}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.step{padding:24px;border:1px solid var(--line);border-radius:18px;background:var(--paper)}.step-num{width:38px;height:38px;border-radius:12px;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:900}.step h3{margin:15px 0 6px}.step p{margin:0;color:var(--muted);font-size:14px}
@@ -44,14 +44,14 @@ body.dark-mode .review-error,body.dark-mode .review-missing{color:#ffb4b4;backgr
 .exam-stat{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:10px 13px;min-width:0}
 .exam-stat small{display:block;color:var(--muted);font-size:12px}
 .exam-stat strong{display:block;font-size:22px;line-height:1.35;font-variant-numeric:tabular-nums}
-.exam-panels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:stretch;margin-top:12px}
+.exam-panels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:stretch;margin-top:12px}
 .exam-panel{min-width:0;border:1px solid var(--line);border-radius:14px;background:var(--white);padding:14px;display:flex;flex-direction:column}
 .exam-panel h3{margin:0 0 10px;font-size:16px}
-.exam-passage-scroll,.exam-input-scroll{height:clamp(340px,52vh,560px);overflow:auto;overscroll-behavior:contain}
-.exam-passage-scroll .passage{min-height:100%;margin:0;overflow-wrap:anywhere}
+.exam-passage-scroll,.exam-input-scroll{height:clamp(420px,62vh,720px);overflow:auto;overscroll-behavior:contain}
+.exam-passage-scroll .passage{min-height:100%;margin:0;overflow-wrap:normal;word-break:normal}
 .exam-input-scroll .typing-area{height:100%;min-height:100%;resize:none;margin:0;display:block}
 .exam-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px}
-@media(max-width:700px){.exam-stats{top:0;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.exam-stat strong{font-size:20px}.exam-panels{grid-template-columns:minmax(0,1fr)}.exam-passage-scroll,.exam-input-scroll{height:340px}.exam-panel{padding:12px}}
+@media(max-width:700px){.wrap{width:94%}.exam-stats{top:0;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.exam-stat strong{font-size:20px}.exam-panels{grid-template-columns:minmax(0,1fr)}.exam-passage-scroll,.exam-input-scroll{height:340px}.exam-panel{padding:12px}}
 
 </style>
 </head>
@@ -344,6 +344,15 @@ const passageSets = {
 };
 
 
+// DOTE passage formatting: Junior is one continuous paragraph and capped at 300 whitespace-delimited words.
+// Senior passage sets remain separate and are not silently substituted with Junior text.
+for (const passage of (passageSets.English?.Junior || [])) {
+  const words = passage.replace(/\s+/g, " ").trim().split(" ").filter(Boolean);
+  passageSets.English.Junior[passageSets.English.Junior.indexOf(passage)] = words.slice(0, 300).join(" ");
+}
+for (const passage of (passageSets.Tamil?.Junior || [])) {
+  passageSets.Tamil.Junior[passageSets.Tamil.Junior.indexOf(passage)] = passage.replace(/\s+/g, " ").trim();
+}
 
 let currentLanguage=localStorage.getItem("starlight-language")||"en";
 function toggleTheme(){
@@ -568,7 +577,13 @@ function startTypingTest(){
   },1000);
 }
 function formatTime(seconds){const m=Math.floor(seconds/60),s=seconds%60;return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
+function normalizeExamText(value) {
+  // Leading indentation spaces at the start of a line are layout, not typing errors.
+  return String(value || "").replace(/^[ \t]+/gm, "");
+}
 function calculateStats(typed, passage, elapsedSeconds) {
+  typed = normalizeExamText(typed);
+  passage = normalizeExamText(passage);
   let correct = 0;
   let errors = 0;
   for (let i = 0; i < typed.length; i++) {
@@ -599,7 +614,16 @@ function buildTypingReview(typed, passage) {
 }
 function updateLiveStats(){
   if(!activeTest||testFinished)return;
-  const typed=$("typingInput").value;
+  const input = $("typingInput");
+  const typed=input.value;
+  // Keep the insertion point visible automatically while typing.
+  const caret = input.selectionStart;
+  const before = input.value.slice(0, caret);
+  const lines = before.split("\n").length;
+  const lineHeight = parseFloat(getComputedStyle(input).lineHeight) || 30;
+  const caretY = lines * lineHeight;
+  if (caretY > input.scrollTop + input.clientHeight - lineHeight) input.scrollTop = caretY - input.clientHeight + lineHeight * 2;
+  if (caretY < input.scrollTop + lineHeight) input.scrollTop = Math.max(0, caretY - lineHeight * 2);
   const elapsed=Math.max(1,(Date.now()-testStartedAt)/1000);
   const stats=calculateStats(typed,activeTest.passage,elapsed);
   $("liveStats").textContent=`Elapsed: ${formatDuration(Math.round(elapsed))}`;
@@ -612,7 +636,8 @@ async function finishTypingTest(manual) {
   testFinished = true;
   clearInterval(testTimer);
   const input = $("typingInput");
-  const typed = input ? input.value : "";
+  const typed = input ? normalizeExamText(input.value) : "";
+  activeTest.passage = normalizeExamText(activeTest.passage);
   const elapsed = Math.max(1, Math.min(600, Math.round((Date.now() - testStartedAt) / 1000)));
   const stats = calculateStats(typed, activeTest.passage, elapsed);
   const reviewHtml = buildTypingReview(typed, activeTest.passage);
