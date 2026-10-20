@@ -76,6 +76,8 @@ body.dark-mode .review-error,body.dark-mode .review-missing{color:#ffb4b4;backgr
       <a href="#programmes" onclick="showPage('home')">Our Sections</a>
       <a href="#how" onclick="showPage('home')">How It Works</a>
       <a href="#" onclick="showPage('dashboard');return false">My Dashboard</a>
+      <a href="#feedback" onclick="showPage('feedback');return false">Feedback / Complaint</a>
+      <a href="#admin" onclick="showPage('admin');return false">Admin</a>
       <button class="btn btn-gold btn-small" id="navAuthBtn" onclick="showPage('auth')">Login / Register</button>
       <button class="btn btn-outline btn-small hidden" id="logoutBtn" onclick="logout()">Log out</button>
     </nav>
@@ -201,6 +203,27 @@ body.dark-mode .review-error,body.dark-mode .review-missing{color:#ffb4b4;backgr
     <div class="panel" style="margin-top:22px"><h2>🏆 Top 10 Typing Leaderboard</h2><p style="color:var(--muted)">Students are ranked by their best saved WPM, with accuracy used to break ties.</p><div id="leaderboardArea"><div class="empty">Loading leaderboard…</div></div></div>
     <div class="panel" style="margin-top:22px"><h2>My recent typing results</h2><div id="historyArea"><div class="empty">Sign in to load your saved results.</div></div></div>
   </div>
+</section>
+
+
+<section class="page hidden" id="feedbackPage">
+ <div class="wrap">
+  <div class="page-title"><div><h1>Feedback & Complaints</h1><p>Help us improve Starlight Online Academy.</p></div><button class="btn btn-outline" onclick="showPage('home')">← Home</button></div>
+  <div class="panel"><div id="feedbackMessage" aria-live="polite"></div>
+   <form id="feedbackForm"><div class="form-grid">
+    <div class="field"><label for="feedbackType">Type</label><select id="feedbackType" required><option>Feedback</option><option>Complaint</option></select></div>
+    <div class="field"><label for="feedbackRating">Rating (optional)</label><select id="feedbackRating"><option value="">No rating</option><option value="5">5 - Excellent</option><option value="4">4 - Good</option><option value="3">3 - Average</option><option value="2">2 - Poor</option><option value="1">1 - Very poor</option></select></div>
+    <div class="field full"><label for="feedbackSubject">Subject</label><input id="feedbackSubject" required maxlength="150" placeholder="Briefly describe the issue or idea"></div>
+    <div class="field full"><label for="feedbackText">Message</label><textarea id="feedbackText" required maxlength="5000" rows="6" placeholder="Write your feedback or complaint"></textarea></div>
+    <div class="field full"><label for="feedbackEmail">Contact email (optional)</label><input id="feedbackEmail" type="email" maxlength="254" placeholder="you@example.com"></div>
+   </div><p><button class="btn btn-primary" id="feedbackSubmit" type="submit">Send feedback</button></p></form>
+  </div>
+ </div>
+</section>
+<section class="page hidden" id="adminPage">
+ <div class="wrap"><div class="page-title"><div><h1>Admin dashboard</h1><p>Sign in with the admin account to review submissions.</p></div><button class="btn btn-outline" onclick="showPage('home')">← Home</button></div>
+  <div class="panel"><div id="adminMessage" aria-live="polite"></div><div id="adminLoginArea"><form id="adminLoginForm"><div class="form-grid"><div class="field"><label for="adminEmail">Admin email</label><input id="adminEmail" type="email" required autocomplete="username"></div><div class="field"><label for="adminPassword">Password</label><input id="adminPassword" type="password" required autocomplete="current-password"></div></div><p><button class="btn btn-primary" type="submit">Admin login</button></p></form></div><div id="adminDashboardArea" class="hidden"><div class="test-toolbar"><div class="field"><label for="adminStatusFilter">Status</label><select id="adminStatusFilter"><option value="all">All statuses</option><option>New</option><option>Under review</option><option>Resolved</option></select></div><div class="field"><label for="adminTypeFilter">Type</label><select id="adminTypeFilter"><option value="all">All types</option><option>Feedback</option><option>Complaint</option></select></div><button class="btn btn-outline" onclick="loadAdminFeedback()">Refresh</button><button class="btn btn-outline" onclick="adminLogout()">Admin logout</button></div><div id="adminFeedbackList"><div class="empty">Loading submissions…</div></div></div></div>
+ </div>
 </section>
 
 <section class="page hidden" id="sectionPage">
@@ -456,12 +479,13 @@ function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":
 function showMessage(target,text,type="info"){const el=typeof target==="string"?$(target):target;if(el)el.innerHTML=`<div class="notice ${type}">${escapeHtml(text)}</div>`}
 function clearMessage(target){const el=typeof target==="string"?$(target):target;if(el)el.innerHTML=""}
 function showPage(page){
-  ["homePage","authPage","dashboardPage","sectionPage"].forEach(id=>$(id).classList.add("hidden"));
-  const map={home:"homePage",auth:"authPage",dashboard:"dashboardPage",section:"sectionPage"};
+  ["homePage","authPage","dashboardPage","sectionPage","feedbackPage","adminPage"].forEach(id=>$(id).classList.add("hidden"));
+  const map={home:"homePage",auth:"authPage",dashboard:"dashboardPage",section:"sectionPage",feedback:"feedbackPage",admin:"adminPage"};
   $(map[page]||"homePage").classList.remove("hidden");
   $("navlinks").classList.remove("open");
   window.scrollTo({top:0,behavior:"smooth"});
   if(page==="dashboard")loadDashboard();
+  if(page==="admin")initAdminPage();
 }
 function setAuthMode(mode){
   authMode=mode;
@@ -819,6 +843,37 @@ async function loadDashboard(){
     $("historyArea").innerHTML=`<div class="table-wrap"><table><thead><tr><th>Date</th><th>Test</th><th>Typed Time</th><th>WPM</th><th>Accuracy</th><th>Errors</th></tr></thead><tbody>${data.map(r=>`<tr><td>${escapeHtml(new Date(r.created_at).toLocaleDateString())}</td><td>${escapeHtml(r.passage_name||`${r.language} ${r.level}`)}</td><td>${formatDuration(r.duration_seconds)}</td><td>${escapeHtml(r.wpm)}</td><td>${escapeHtml(r.accuracy)}%</td><td>${escapeHtml(r.errors)}</td></tr>`).join("")}</tbody></table></div>`;
   }catch(err){$("historyArea").innerHTML=`<div class="notice warn">Could not load results. Check that the typing_results table and row-level security policies are set up. ${escapeHtml(err.message||"")}</div>`}
 }
+
+// Feedback submission and admin review. Database row-level security remains the authority.
+let academyAdminVerified = false;
+$('feedbackForm').addEventListener('submit', async e => {
+ e.preventDefault(); clearMessage('feedbackMessage');
+ if(!db){showMessage('feedbackMessage','Database connection is unavailable. Please try again later.','error');return;}
+ const btn=$('feedbackSubmit');btn.disabled=true;btn.textContent='Sending…';
+ try {
+  const {data:{user}}=await db.auth.getUser();
+  const payload={type:$('feedbackType').value,rating:$('feedbackRating').value?Number($('feedbackRating').value):null,subject:$('feedbackSubject').value.trim(),message:$('feedbackText').value.trim(),contact_email:$('feedbackEmail').value.trim()||null,user_id:user?.id||null};
+  const {error}=await db.from('academy_feedback').insert(payload);if(error)throw error;
+  $('feedbackForm').reset();showMessage('feedbackMessage','Thank you. Your submission has been received.','success');
+ } catch(err){showMessage('feedbackMessage',err.message||'Could not send your submission. Please try again.','error');}
+ finally{btn.disabled=false;btn.textContent='Send feedback';}
+});
+async function initAdminPage(){
+ academyAdminVerified=false;$('adminDashboardArea').classList.add('hidden');$('adminLoginArea').classList.remove('hidden');clearMessage('adminMessage');
+ if(!db){showMessage('adminMessage','Database connection is unavailable.','error');return;}
+ try{const {data:{user}}=await db.auth.getUser();if(user){const {data,error}=await db.rpc('is_academy_admin');if(!error&&data===true){academyAdminVerified=true;$('adminLoginArea').classList.add('hidden');$('adminDashboardArea').classList.remove('hidden');await loadAdminFeedback();}}}catch(e){}
+}
+$('adminLoginForm').addEventListener('submit',async e=>{e.preventDefault();clearMessage('adminMessage');if(!db)return;const b=e.submitter;b.disabled=true;try{const {data,error}=await db.auth.signInWithPassword({email:$('adminEmail').value.trim(),password:$('adminPassword').value});if(error)throw error;const check=await db.rpc('is_academy_admin');if(check.error||check.data!==true){await db.auth.signOut();throw new Error('This account is not authorised as an academy admin.');}academyAdminVerified=true;$('adminLoginArea').classList.add('hidden');$('adminDashboardArea').classList.remove('hidden');showMessage('adminMessage','Admin login successful.','success');await loadAdminFeedback();}catch(err){showMessage('adminMessage',err.message||'Admin login failed.','error');}finally{b.disabled=false;}});
+$('adminStatusFilter').addEventListener('change',loadAdminFeedback);$('adminTypeFilter').addEventListener('change',loadAdminFeedback);
+async function loadAdminFeedback(){
+ if(!academyAdminVerified||!db)return;const host=$('adminFeedbackList');host.innerHTML='<div class="empty">Loading submissions…</div>';
+ try{let q=db.from('academy_feedback').select('*').order('created_at',{ascending:false}).limit(200);const st=$('adminStatusFilter').value,ty=$('adminTypeFilter').value;if(st!=='all')q=q.eq('status',st);if(ty!=='all')q=q.eq('type',ty);const {data,error}=await q;if(error)throw error;if(!data.length){host.innerHTML='<div class="empty">No submissions match these filters.</div>';return;}
+ host.innerHTML=data.map(r=>`<article class="panel" style="margin:12px 0;box-shadow:none"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><strong>${escapeHtml(r.type)}: ${escapeHtml(r.subject)}</strong><small>${escapeHtml(new Date(r.created_at).toLocaleString())}</small></div><p style="white-space:pre-wrap">${escapeHtml(r.message)}</p><p style="color:var(--muted);font-size:13px">Rating: ${r.rating??'—'} · Contact: ${escapeHtml(r.contact_email||'Not provided')} · Status: ${escapeHtml(r.status)}</p><div class="form-grid"><div class="field"><label>Status</label><select id="status-${r.id}"><option ${r.status==='New'?'selected':''}>New</option><option ${r.status==='Under review'?'selected':''}>Under review</option><option ${r.status==='Resolved'?'selected':''}>Resolved</option></select></div><div class="field"><label>Admin notes</label><input id="notes-${r.id}" maxlength="2000" value="${escapeHtml(r.admin_notes||'')}" placeholder="Internal notes"></div></div><p><button class="btn btn-primary btn-small" onclick="saveFeedbackItem(${Number(r.id)})">Save update</button></p><div id="save-${r.id}"></div></article>`).join('');
+ }catch(err){host.innerHTML='';showMessage('adminMessage',err.message||'Unable to load submissions.','error');}
+}
+async function saveFeedbackItem(id){if(!academyAdminVerified||!db)return;const status=$('status-'+id).value,admin_notes=$('notes-'+id).value.trim()||null;const {error}=await db.from('academy_feedback').update({status,admin_notes}).eq('id',id);if(error)showMessage('save-'+id,error.message,'error');else showMessage('save-'+id,'Update saved.','success');}
+async function adminLogout(){if(db)await db.auth.signOut();academyAdminVerified=false;$('adminDashboardArea').classList.add('hidden');$('adminLoginArea').classList.remove('hidden');showMessage('adminMessage','Admin signed out.','info');}
+
 </script>
 </body>
 </html>
