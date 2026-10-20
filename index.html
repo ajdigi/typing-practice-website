@@ -34,8 +34,8 @@ body.dark-mode .service-card ul{color:#c3cbe0}body.dark-mode .step-num{backgroun
 
 /* Wider exam layout and independently scrollable panels */
 #typingTestArea .passage{width:100%;max-height:600px;overflow:auto;min-height:460px;font-size:18px;line-height:1.85;overflow-wrap:anywhere}
-#typingTestArea .typing-area{width:100%;height:600px;min-height:460px;overflow:auto;font-size:18px;line-height:1.85}
-@media(min-width:1000px){#typingTestArea .exam-panels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:stretch;width:100%}#typingTestArea .exam-panel{min-width:0;width:100%}#typingTestArea .passage,#typingTestArea .typing-area{width:100%;height:600px;min-height:600px;max-height:600px}}
+#typingTestArea .typing-area{box-sizing:border-box;width:100%;height:600px;min-height:600px;max-height:600px;resize:none;overflow:auto;font-size:17px;line-height:1.75}
+@media(min-width:1000px){#typingTestArea .exam-panels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:stretch;width:100%}#typingTestArea .exam-panel{min-width:0;width:100%}#typingTestArea .passage,#typingTestArea .typing-area{box-sizing:border-box;width:100%;height:600px;min-height:600px;max-height:600px} #typingTestArea .passage{overflow-y:auto;font-size:17px;line-height:1.75;padding:20px} #typingTestArea .exam-panel h3{margin:0 0 8px} #typingTestArea .typing-area{margin-top:0}}
 @media(max-width:999px){#typingTestArea .exam-panels{display:grid;grid-template-columns:1fr;gap:14px}}
 /* Ten-minute typing exam review */
 .typing-review{white-space:pre-wrap;overflow-wrap:anywhere;line-height:2;font-size:17px;padding:18px;border:1px solid var(--line);border-radius:14px;background:var(--paper);margin-top:12px}
@@ -45,6 +45,15 @@ body.dark-mode .service-card ul{color:#c3cbe0}body.dark-mode .step-num{backgroun
 body.dark-mode .typing-review{background:#121a2a;border-color:#3b465f}
 body.dark-mode .review-error,body.dark-mode .review-missing{color:#ffb4b4;background:#4b2028;border-color:#ff8585}
 
+
+#typingTestArea .result-grid-four{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+#typingTestArea .result-grid-four .result-box{padding:10px 6px}
+#typingTestArea .result-grid-four .result-box strong{font-size:22px}
+#typingTestArea .result-grid-four .result-box span{font-size:11px}
+#typingTestArea .exam-panels{width:100%}
+#typingTestArea .exam-panel{min-width:0}
+#typingTestArea .typing-review{max-height:260px;overflow:auto}
+@media(max-width:600px){#typingTestArea .result-grid-four{grid-template-columns:repeat(2,minmax(0,1fr))} #typingTestArea .passage,#typingTestArea .typing-area{height:460px;min-height:460px;max-height:460px}}
 </style>
 </head>
 <body>
@@ -588,7 +597,7 @@ function startTypingTest(){
     <div class="test-status" style="margin-top:12px"><span id="liveStats">WPM: 0 · Accuracy: 100%</span><button type="button" class="btn btn-primary" id="finishTestBtn">Finish test</button></div>`;
   $("typingResultArea").innerHTML="";
   $("typingInput").focus();
-  $("typingInput").addEventListener("input",()=>{updateLiveStats();const el=$("typingInput");if(el)el.scrollTop=el.scrollHeight;});
+  $("typingInput").addEventListener("input",()=>{updateLiveStats();});
   const finishButton = $("finishTestBtn");
   if (finishButton) {
     finishButton.addEventListener("click", () => {
@@ -658,16 +667,17 @@ async function finishTypingTest(manual) {
   if (input) input.disabled = true;
   const finishButton = $("finishTestBtn");
   if (finishButton) finishButton.disabled = true;
-  const resultHtml = `<div class="panel">
-    <h2>Exam Results</h2>
-    <p style="color:var(--muted)">Your typing exam is complete. Correct characters are shown normally, incorrect or extra typed characters are red, and red squares mark characters you missed.</p>
-    <div class="result-grid">
+  const resultHtml = `<div class="panel" style="padding:14px;margin-top:10px">
+    <h2 style="margin-bottom:8px">Exam Results</h2>
+    <p style="color:var(--muted);margin:0 0 10px">Correct characters are shown normally, incorrect or extra typed characters are red, and red squares mark missing characters.</p>
+    <div class="result-grid result-grid-four">
       <div class="result-box"><strong>${stats.accuracy}%</strong><span>Accuracy</span></div>
       <div class="result-box"><strong>${stats.wpm}</strong><span>WPM</span></div>
-      <div class="result-box"><strong>${stats.errors}</strong><span>Errors typed</span></div>
+      <div class="result-box"><strong>${stats.errors}</strong><span>Errors</span></div>
+      <div class="result-box"><strong>${formatDuration(elapsed)}</strong><span>Time taken</span></div>
     </div>
-    <div style="margin-top:24px"><h3>Review Your Passage</h3><div class="typing-review">${reviewHtml}</div>
-    <p style="margin-top:12px"><strong>Characters typed:</strong> ${stats.typedChars} &nbsp; · &nbsp; <strong>Correct characters:</strong> ${stats.correct}</p></div>
+    <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:750">Review your passage</summary><div style="margin-top:10px"><div class="typing-review">${reviewHtml}</div>
+    <p style="margin-top:12px"><strong>Characters typed:</strong> ${stats.typedChars} &nbsp; · &nbsp; <strong>Correct characters:</strong> ${stats.correct}</p></div></details>
     <div id="saveResultMessage" style="margin-top:12px"></div>
     <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-primary" onclick="startTypingTest()">Try Again</button><button class="btn btn-outline" onclick="showPage(currentUser?'dashboard':'home')">Back to ${currentUser ? "Dashboard" : "Home"}</button></div>
   </div>`;
