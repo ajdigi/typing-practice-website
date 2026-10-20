@@ -39,6 +39,19 @@ body.dark-mode .service-card ul{color:#c3cbe0}body.dark-mode .step-num{backgroun
 .review-missing{display:inline-block;color:#b91c1c;background:#fee2e2;border:1px dashed #dc2626;border-radius:3px;font-weight:800;min-width:.7em;text-align:center}
 body.dark-mode .typing-review{background:#121a2a;border-color:#3b465f}
 body.dark-mode .review-error,body.dark-mode .review-missing{color:#ffb4b4;background:#4b2028;border-color:#ff8585}
+/* Typing exam: persistent stats and two independently scrollable panels */
+.exam-stats{position:sticky;top:82px;z-index:5;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;background:var(--paper);padding:10px 0;margin:8px 0 12px}
+.exam-stat{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:10px 13px;min-width:0}
+.exam-stat small{display:block;color:var(--muted);font-size:12px}
+.exam-stat strong{display:block;font-size:22px;line-height:1.35;font-variant-numeric:tabular-nums}
+.exam-panels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:stretch;margin-top:12px}
+.exam-panel{min-width:0;border:1px solid var(--line);border-radius:14px;background:var(--white);padding:14px;display:flex;flex-direction:column}
+.exam-panel h3{margin:0 0 10px;font-size:16px}
+.exam-passage-scroll,.exam-input-scroll{height:clamp(340px,52vh,560px);overflow:auto;overscroll-behavior:contain}
+.exam-passage-scroll .passage{min-height:100%;margin:0;overflow-wrap:anywhere}
+.exam-input-scroll .typing-area{height:100%;min-height:100%;resize:none;margin:0;display:block}
+.exam-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px}
+@media(max-width:700px){.exam-stats{top:0;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.exam-stat strong{font-size:20px}.exam-panels{grid-template-columns:minmax(0,1fr)}.exam-passage-scroll,.exam-input-scroll{height:340px}.exam-panel{padding:12px}}
 
 </style>
 </head>
@@ -504,7 +517,7 @@ let selectedPassageNumber=1;
 function renderPassageChoices(){
   const area=$("passageChoices");if(!area)return;
   const language=$("testLanguage").value,level=$("testLevel").value;
-  area.innerHTML=passageSets[language][level].map((p,i)=>`<button type="button" class="passage-choice ${i+1===selectedPassageNumber?"selected":""}" onclick="selectPassage(${i+1})" aria-pressed="${i+1===selectedPassageNumber}">Passage ${i+1}<small>${p.split(/\\s+/).length} words</small></button>`).join("");
+  area.innerHTML=passageSets[language][level].map((p,i)=>`<button type="button" class="passage-choice ${i+1===selectedPassageNumber?"selected":""}" onclick="selectPassage(${i+1})" aria-pressed="${i+1===selectedPassageNumber}">Passage ${i+1}<small>${p.trim() ? p.trim().split(/\s+/).length : 0} words</small></button>`).join("");
 }
 function selectPassage(number){
   selectedPassageNumber=number;
@@ -519,10 +532,18 @@ function startTypingTest(){
   activeTest={language,level,duration,passage,passageNumber:selectedPassageNumber};
   secondsRemaining=duration;testStartedAt=Date.now();testFinished=false;
   $("typingTestArea").innerHTML=`
-    <div class="test-status"><div><span class="tag">${escapeHtml(language)} · ${escapeHtml(level)} · Passage ${selectedPassageNumber}</span><p style="margin:8px 0 0;color:var(--muted)">Type the selected passage shown below into the box. You may finish before the timer ends.</p></div><div><small style="color:var(--muted);display:block">Time remaining</small><div class="timer" id="timerDisplay">${formatTime(secondsRemaining)}</div></div></div>
-    <div class="passage" id="testPassage">${escapeHtml(passage)}</div>
-    <textarea id="typingInput" class="typing-area" placeholder="Start typing here when you're ready…" spellcheck="false" autocapitalize="off"></textarea>
-    <div class="test-status" style="margin-top:12px"><span id="liveStats">WPM: 0 · Accuracy: 100%</span><button type="button" class="btn btn-primary" id="finishTestBtn">Finish test</button></div>`;
+    <div class="test-status"><div><span class="tag">${escapeHtml(language)} · ${escapeHtml(level)} · Passage ${selectedPassageNumber}</span><p style="margin:8px 0 0;color:var(--muted)">Type the passage into the box on the right. The passage and typing box scroll independently.</p></div></div>
+    <div class="exam-stats" aria-live="polite">
+      <div class="exam-stat"><small>Time remaining</small><strong class="timer" id="timerDisplay">${formatTime(secondsRemaining)}</strong></div>
+      <div class="exam-stat"><small>WPM</small><strong id="liveWpm">0</strong></div>
+      <div class="exam-stat"><small>Accuracy</small><strong id="liveAccuracy">0%</strong></div>
+      <div class="exam-stat"><small>Errors</small><strong id="liveErrors">0</strong></div>
+    </div>
+    <div class="exam-panels">
+      <section class="exam-panel"><h3>Passage</h3><div class="exam-passage-scroll"><div class="passage" id="testPassage">${escapeHtml(passage)}</div></div></section>
+      <section class="exam-panel"><h3>Your typing</h3><div class="exam-input-scroll"><textarea id="typingInput" class="typing-area" placeholder="Start typing here when you're ready…" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></div></section>
+    </div>
+    <div class="exam-actions"><span id="liveStats" aria-live="polite">Start typing to see your live results.</span><button type="button" class="btn btn-primary" id="finishTestBtn">Finish test</button></div>`;
   $("typingResultArea").innerHTML="";
   $("typingInput").focus();
   $("typingInput").addEventListener("input",updateLiveStats);
@@ -581,7 +602,10 @@ function updateLiveStats(){
   const typed=$("typingInput").value;
   const elapsed=Math.max(1,(Date.now()-testStartedAt)/1000);
   const stats=calculateStats(typed,activeTest.passage,elapsed);
-  $("liveStats").textContent=`WPM: ${stats.wpm} · Accuracy: ${stats.accuracy}% · Errors: ${stats.errors}`;
+  $("liveStats").textContent=`Elapsed: ${formatDuration(Math.round(elapsed))}`;
+  if($("liveWpm"))$("liveWpm").textContent=stats.wpm;
+  if($("liveAccuracy"))$("liveAccuracy").textContent=`${stats.accuracy}%`;
+  if($("liveErrors"))$("liveErrors").textContent=stats.errors;
 }
 async function finishTypingTest(manual) {
   if (!activeTest || testFinished) return;
