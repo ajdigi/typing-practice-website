@@ -54,6 +54,10 @@ body.dark-mode .review-error,body.dark-mode .review-missing{color:#ffb4b4;backgr
 #typingTestArea .exam-panel{min-width:0}
 #typingTestArea .typing-review{max-height:260px;overflow:auto}
 @media(max-width:600px){#typingTestArea .result-grid-four{grid-template-columns:repeat(2,minmax(0,1fr))} #typingTestArea .passage,#typingTestArea .typing-area{height:460px;min-height:460px;max-height:460px;overscroll-behavior:contain}}
+
+.mistakes-breakdown{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--paper)}
+.mistakes-breakdown h3{margin:0 0 12px}.mistakes-breakdown section{padding:10px 0;border-top:1px solid var(--line)}.mistakes-breakdown h4{margin:0 0 7px;font-size:15px}.mistake-list{margin:0;padding-left:22px}.mistake-list li{margin:7px 0;overflow-wrap:anywhere}.mistake-list code{background:#eef0f8;padding:2px 5px;border-radius:4px}.bad-code{color:#b91c1c!important;background:#fee2e2!important}.mistake-context{display:block;color:var(--muted);font-size:13px;margin-top:4px}.context-missing{color:#b91c1c;background:#fee2e2;text-decoration:underline}.mistake-none{margin:0;color:var(--muted);font-size:13px}.mistake-arrow{padding:0 5px;color:var(--muted)}body.dark-mode .mistake-list code{background:#303a50}body.dark-mode .bad-code{background:#4b2028!important;color:#ffb4b4!important}
+
 </style>
 </head>
 <body>
@@ -633,22 +637,72 @@ function calculateStats(typed, passage, elapsedSeconds) {
   const wpm = Math.round((typed.length / 5) / minutes);
   return { wpm, accuracy, errors, correct, typedChars: typed.length };
 }
-function buildTypingReview(typed, passage) {
-  let html = "";
-  for (let i = 0; i < Math.max(typed.length, passage.length); i++) {
-    const expected = passage[i];
-    const actual = typed[i];
-    if (actual === undefined) {
-      html += '<span class="review-missing" title="Missing character">□</span>';
-    } else if (expected === undefined) {
-      html += `<span class="review-error" title="Extra character">${escapeHtml(actual)}</span>`;
-    } else if (actual !== expected) {
-      html += `<span class="review-error" title="Incorrect character">${escapeHtml(actual)}</span>`;
-    } else {
-      html += `<span class="review-correct">${escapeHtml(actual)}</span>`;
+function alignTypingText(typed, passage) {
+  // Edit-distance alignment keeps later characters aligned after an omission.
+  // Use a bounded dynamic-programming window for practical browser performance.
+  const n = passage.length, m = typed.length;
+  if (n * m > 1800000) {
+    // Large passages use a linear fallback with one-character lookahead.
+    const ops=[]; let i=0,j=0;
+    while(i<n || j<m){
+      if(i<n && j<m && passage[i]===typed[j]){ops.push({type:'match', expected:passage[i], actual:typed[j], i, j});i++;j++;}
+      else if(i<n && j<m && passage[i+1]===typed[j]){ops.push({type:'missing',expected:passage[i],i});i++;}
+      else if(j<m && i<n && typed[j+1]===passage[i]){ops.push({type:'extra',actual:typed[j],j});j++;}
+      else if(i<n && j<m){ops.push({type:'replace',expected:passage[i],actual:typed[j],i,j});i++;j++;}
+      else if(i<n){ops.push({type:'missing',expected:passage[i],i});i++;}
+      else {ops.push({type:'extra',actual:typed[j],j});j++;}
     }
+    return ops;
   }
-  return html;
+  const dp=Array.from({length:n+1},()=>new Uint32Array(m+1));
+  for(let i=0;i<=n;i++) dp[i][0]=i;
+  for(let j=0;j<=m;j++) dp[0][j]=j;
+  for(let i=1;i<=n;i++) for(let j=1;j<=m;j++){
+    dp[i][j]=passage[i-1]===typed[j-1]?dp[i-1][j-1]:Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+1);
+  }
+  const ops=[]; let i=n,j=m;
+  while(i||j){
+    if(i&&j&&passage[i-1]===typed[j-1]&&dp[i][j]===dp[i-1][j-1]){ops.push({type:'match',expected:passage[i-1],actual:typed[j-1],i:i-1,j:j-1});i--;j--;}
+    else if(i&&j&&dp[i][j]===dp[i-1][j-1]+1){ops.push({type:'replace',expected:passage[i-1],actual:typed[j-1],i:i-1,j:j-1});i--;j--;}
+    else if(i&&dp[i][j]===dp[i-1][j]+1){ops.push({type:'missing',expected:passage[i-1],i:i-1});i--;}
+    else {ops.push({type:'extra',actual:typed[j-1],j:j-1});j--;}
+  }
+  return ops.reverse();
+}
+function buildTypingReview(typed, passage, ops = alignTypingText(typed, passage)) {
+  return ops.map(op=>{
+    if(op.type==='match') return `<span class="review-correct">${escapeHtml(op.actual)}</span>`;
+    if(op.type==='missing') return `<span class="review-missing" title="Missing: ${escapeHtml(op.expected)}">${op.expected===' '?'␣':'□'}</span>`;
+    if(op.type==='extra') return `<span class="review-error" title="Extra typed character">${escapeHtml(op.actual)}</span>`;
+    return `<span class="review-error" title="Expected ${escapeHtml(op.expected)}; typed ${escapeHtml(op.actual)}">${escapeHtml(op.actual)}</span>`;
+  }).join('');
+}
+function getMistakeBreakdown(typed, passage, ops) {
+  const missingChars=ops.filter(x=>x.type==='missing' && x.expected!==' ');
+  const missingSpaces=ops.filter(x=>x.type==='missing' && x.expected===' ');
+  const extras=ops.filter(x=>x.type==='extra');
+  const replacements=ops.filter(x=>x.type==='replace');
+  const expectedWords=passage.trim().split(/\s+/), typedWords=typed.trim().split(/\s+/).filter(Boolean);
+  const wordErrors=[]; let ei=0,ti=0;
+  while(ei<expectedWords.length && ti<typedWords.length){
+    if(expectedWords[ei]===typedWords[ti]){ei++;ti++;continue;}
+    // Treat a missing space joining two expected words as a spacing error, not two word errors.
+    if(ti+1<typedWords.length && expectedWords[ei]===typedWords[ti]+typedWords[ti+1]){ei++;ti+=2;continue;}
+    if(ei+1<expectedWords.length && expectedWords[ei]+expectedWords[ei+1]===typedWords[ti]){ei+=2;ti++;continue;}
+    // Pair a nearby word substitution once; character-level omissions are listed separately.
+    let matchedAhead=false;
+    for(let skip=1;skip<=2;skip++) if(expectedWords[ei+skip]===typedWords[ti]){ei+=skip;matchedAhead=true;break;}
+    if(matchedAhead) continue;
+    for(let skip=1;skip<=2;skip++) if(typedWords[ti+skip]===expectedWords[ei]){ti+=skip;matchedAhead=true;break;}
+    if(matchedAhead) continue;
+    wordErrors.push({expected:expectedWords[ei],actual:typedWords[ti]});ei++;ti++;
+  }
+  const list=(items, render, empty)=>items.length?`<ul class="mistake-list">${items.slice(0,100).map(render).join('')}</ul>`:`<p class="mistake-none">${empty}</p>`;
+  const wordHtml=list(wordErrors,x=>`<li><strong>Expected:</strong> <code>${escapeHtml(x.expected)}</code> <span class="mistake-arrow">→</span> <strong>Typed:</strong> <code class="bad-code">${escapeHtml(x.actual)}</code></li>`,'No word substitutions detected.');
+  const omissionHtml=list(missingChars,x=>{const before=passage.slice(Math.max(0,x.i-18),x.i),after=passage.slice(x.i+1,x.i+19);return `<li>Missing <code class="bad-code">${escapeHtml(x.expected)}</code> <span class="mistake-context">Context: …${escapeHtml(before)}<strong class="context-missing">${escapeHtml(x.expected)}</strong>${escapeHtml(after)}…</span></li>`;},'No omitted characters detected.');
+  const spaceHtml=list(missingSpaces,x=>`<li>Missing space near: <code>${escapeHtml(passage.slice(Math.max(0,x.i-20),x.i)+' ␣ '+passage.slice(x.i+1,x.i+21))}</code></li>`,'No missing spaces detected.');
+  const extraHtml=list(extras,x=>`<li>Extra character <code class="bad-code">${escapeHtml(x.actual)}</code> near typed position ${x.j+1}.</li>`,'No extra characters detected.');
+  return `<div class="mistakes-breakdown"><h3>Mistakes Breakdown</h3><section><h4>Word Errors (${wordErrors.length})</h4>${wordHtml}</section><section><h4>Omissions (${missingChars.length})</h4>${omissionHtml}</section><section><h4>Missing Spaces (${missingSpaces.length})</h4>${spaceHtml}</section><section><h4>Extra Characters (${extras.length})</h4>${extraHtml}</section></div>`;
 }
 function updateLiveStats(){
   if(!activeTest||testFinished)return;
@@ -665,7 +719,9 @@ async function finishTypingTest(manual) {
   const typed = input ? input.value : "";
   const elapsed = Math.max(1, Math.min(600, Math.round((Date.now() - testStartedAt) / 1000)));
   const stats = calculateStats(typed, activeTest.passage, elapsed);
-  const reviewHtml = buildTypingReview(typed, activeTest.passage);
+  const alignment = alignTypingText(typed, activeTest.passage);
+  const reviewHtml = buildTypingReview(typed, activeTest.passage, alignment);
+  const mistakesHtml = getMistakeBreakdown(typed, activeTest.passage, alignment);
   if (input) input.disabled = true;
   const finishButton = $("finishTestBtn");
   if (finishButton) finishButton.disabled = true;
@@ -678,6 +734,7 @@ async function finishTypingTest(manual) {
       <div class="result-box"><strong>${stats.errors}</strong><span>Errors</span></div>
       <div class="result-box"><strong>${formatDuration(elapsed)}</strong><span>Time taken</span></div>
     </div>
+    <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:750">Mistakes Breakdown</summary><div style="margin-top:10px">${mistakesHtml}</div></details>
     <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:750">Review your passage</summary><div style="margin-top:10px"><div class="typing-review">${reviewHtml}</div>
     <p style="margin-top:12px"><strong>Characters typed:</strong> ${stats.typedChars} &nbsp; · &nbsp; <strong>Correct characters:</strong> ${stats.correct}</p></div></details>
     <div id="saveResultMessage" style="margin-top:12px"></div>
