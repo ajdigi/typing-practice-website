@@ -602,7 +602,18 @@ function startTypingTest(){
   $("typingResultArea").innerHTML="";
   // Focus the typing box without forcing the document to scroll.
   const typingBox = $("typingInput");
-  if (typingBox) { try { typingBox.focus({ preventScroll: true }); } catch (_) { typingBox.focus(); } }
+  if (typingBox) {
+    try { typingBox.focus({ preventScroll: true }); } catch (_) { typingBox.focus(); }
+    // Typing practice must be completed by the student; block paste and dropped text.
+    typingBox.addEventListener("paste", event => event.preventDefault());
+    typingBox.addEventListener("drop", event => event.preventDefault());
+    typingBox.addEventListener("keydown", event => {
+      const key = (event.key || "").toLowerCase();
+      if ((event.ctrlKey || event.metaKey) && ["v", "insert"].includes(key)) event.preventDefault();
+      if (event.shiftKey && key === "insert") event.preventDefault();
+    });
+    typingBox.addEventListener("contextmenu", event => event.preventDefault());
+  }
   $("typingInput").addEventListener("input",()=>{updateLiveStats();});
   const finishButton = $("finishTestBtn");
   if (finishButton) {
@@ -721,7 +732,6 @@ async function finishTypingTest(manual) {
   const stats = calculateStats(typed, activeTest.passage, elapsed);
   const alignment = alignTypingText(typed, activeTest.passage);
   const reviewHtml = buildTypingReview(typed, activeTest.passage, alignment);
-  const mistakesHtml = getMistakeBreakdown(typed, activeTest.passage, alignment);
   if (input) input.disabled = true;
   const finishButton = $("finishTestBtn");
   if (finishButton) finishButton.disabled = true;
@@ -734,7 +744,6 @@ async function finishTypingTest(manual) {
       <div class="result-box"><strong>${stats.errors}</strong><span>Errors</span></div>
       <div class="result-box"><strong>${formatDuration(elapsed)}</strong><span>Time taken</span></div>
     </div>
-    <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:750">Mistakes Breakdown</summary><div style="margin-top:10px">${mistakesHtml}</div></details>
     <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:750">Review your passage</summary><div style="margin-top:10px"><div class="typing-review">${reviewHtml}</div>
     <p style="margin-top:12px"><strong>Characters typed:</strong> ${stats.typedChars} &nbsp; · &nbsp; <strong>Correct characters:</strong> ${stats.correct}</p></div></details>
     <div id="saveResultMessage" style="margin-top:12px"></div>
