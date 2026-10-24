@@ -33,8 +33,8 @@ body.dark-mode .service-card ul{color:#c3cbe0}body.dark-mode .step-num{backgroun
 @media(max-width:540px){.section{padding:52px 0}.hero h1{font-size:39px}.hero p{font-size:15px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:1/-1}.result-grid{grid-template-columns:1fr}.panel{padding:18px}.page-title{align-items:flex-start;flex-direction:column}.float-card{font-size:11px;padding:9px 11px}.orbit{width:260px}.star-core{width:115px;height:115px;font-size:52px}}
 
 /* Wider exam layout and independently scrollable panels */
-#typingTestArea .passage{width:100%;max-height:600px;overflow:auto;min-height:460px;font-size:15px;line-height:1.85;overflow-wrap:anywhere}
-#typingTestArea .typing-area{box-sizing:border-box;width:100%;height:600px;min-height:600px;max-height:600px;resize:none;overflow:auto;overscroll-behavior:contain;font-size:15px;line-height:1.75}
+#typingTestArea .passage{width:100%;max-height:600px;overflow:auto;min-height:460px;font-size:18px;line-height:1.85;overflow-wrap:anywhere}
+#typingTestArea .typing-area{box-sizing:border-box;width:100%;height:600px;min-height:600px;max-height:600px;resize:none;overflow:auto;overscroll-behavior:contain;font-size:17px;line-height:1.75}
 @media(min-width:1000px){#typingTestArea .exam-panels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:stretch;width:100%}#typingTestArea .exam-panel{min-width:0;width:100%}#typingTestArea .passage,#typingTestArea .typing-area{box-sizing:border-box;width:100%;height:600px;min-height:600px;max-height:600px;overscroll-behavior:contain} #typingTestArea .passage{overflow-y:auto;overscroll-behavior:contain;font-size:17px;line-height:1.75;padding:20px} #typingTestArea .exam-panel h3{margin:0 0 8px} #typingTestArea .typing-area{margin-top:0}}
 @media(max-width:999px){#typingTestArea .exam-panels{display:grid;grid-template-columns:1fr;gap:14px}}
 /* Ten-minute typing exam review */
@@ -479,6 +479,11 @@ function escapeHtml(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":
 function showMessage(target,text,type="info"){const el=typeof target==="string"?$(target):target;if(el)el.innerHTML=`<div class="notice ${type}">${escapeHtml(text)}</div>`}
 function clearMessage(target){const el=typeof target==="string"?$(target):target;if(el)el.innerHTML=""}
 function showPage(page){
+  // Require a valid Supabase session for student-only pages.
+  if((page==="dashboard"||page==="section")&&!currentUser){
+    page="auth";
+    setTimeout(()=>showMessage("authMessage","Please log in or create a student account to access the dashboard and typing practice.","info"),0);
+  }
   ["homePage","authPage","dashboardPage","sectionPage","feedbackPage","adminPage"].forEach(id=>$(id).classList.add("hidden"));
   const map={home:"homePage",auth:"authPage",dashboard:"dashboardPage",section:"sectionPage",feedback:"feedbackPage",admin:"adminPage"};
   $(map[page]||"homePage").classList.remove("hidden");
@@ -551,10 +556,15 @@ async function resetPassword(){
 }
 if(db){
   db.auth.getSession().then(({data})=>{syncUser(data.session?.user||null)});
-  db.auth.onAuthStateChange((_event,session)=>{syncUser(session?.user||null)});
+  db.auth.onAuthStateChange((_event,session)=>{
+    const wasSignedIn=!!currentUser;
+    syncUser(session?.user||null);
+    if(wasSignedIn&&!session?.user&&["dashboardPage","sectionPage"].some(id=>!$(id).classList.contains("hidden")))showPage("auth");
+  });
 }else{updateAuthButtons()}
 
 function openSection(section){
+  if(!currentUser){showPage("auth");showMessage("authMessage","Please log in or create a student account before starting typing practice.","info");return;}
   currentSection=section;
   $("sectionContent").innerHTML="";
   if(section==="typing"){
@@ -825,13 +835,8 @@ async function loadLeaderboard(){
 function formatDuration(seconds){const value=Number(seconds);if(!Number.isFinite(value)||value<0)return "—";const whole=Math.floor(value);return String(Math.floor(whole/60)).padStart(2,"0")+":"+String(whole%60).padStart(2,"0");}
 
 async function loadDashboard(){
+  if(!currentUser){showPage("auth");showMessage("authMessage","Please log in to access your student dashboard.","info");return;}
   loadLeaderboard();
-  if(!currentUser){
-    $("welcomeText").textContent="Log in to see your personal dashboard.";
-    $("dashboardMessage").innerHTML=`<div class="notice info">You can explore the website without logging in. Log in or create an account to use account-based features and save typing results.</div>`;
-    $("historyArea").innerHTML=`<div class="empty">No account is currently signed in. <button class="btn btn-primary btn-small" onclick="showPage('auth')">Login / Register</button></div>`;
-    return;
-  }
   $("welcomeText").textContent=`Welcome${currentUser.user_metadata?.full_name?" back, "+currentUser.user_metadata.full_name:" back"}! Choose a section to continue.`;
   $("dashboardMessage").innerHTML="";
   $("historyArea").innerHTML=`<div class="empty">Loading your results…</div>`;
